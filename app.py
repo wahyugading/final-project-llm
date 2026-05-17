@@ -8,24 +8,24 @@ from datetime import datetime
 # ── Ambil API key dengan aman (TIDAK pernah dikirim ke browser) ───────────────
 def get_api_key() -> str:
     """
-    Urutan prioritas:
-    1. st.secrets (Streamlit Cloud — paling aman, server-side only)
-    2. Environment variable GEMINI_API_KEY (server lokal / .env)
-    3. Session state (input manual user via sidebar — hanya untuk dev lokal)
+    Urutan prioritas (manual input SELALU diutamakan agar user bisa override):
+    1. Session state — input manual user (prioritas tertinggi)
+    2. st.secrets — Streamlit Cloud Secrets (admin)
+    3. Environment variable — .env lokal
     """
-    # 1. Streamlit Cloud Secrets
+    # 1. Manual input dari user (prioritas tertinggi)
+    manual = st.session_state.get("_manual_api_key", "")
+    if manual:
+        return manual
+    # 2. Streamlit Cloud Secrets
     try:
         key = st.secrets.get("GEMINI_API_KEY", "")
         if key:
             return key
     except Exception:
         pass
-    # 2. Environment variable
-    key = os.environ.get("GEMINI_API_KEY", "")
-    if key:
-        return key
-    # 3. Session state (input manual — hanya untuk dev lokal)
-    return st.session_state.get("_manual_api_key", "")
+    # 3. Environment variable
+    return os.environ.get("GEMINI_API_KEY", "")
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -220,53 +220,46 @@ with st.sidebar:
 
     if nav == "Pengaturan":
         st.markdown("**🔑 Gemini API Key**")
+        st.caption("Key hanya tersimpan selama sesi ini di browser Anda dan tidak dikirim ke mana pun.")
 
-        # Cek apakah key sudah ada dari server (Streamlit Secrets / env)
-        _server_key = ""
-        try:
-            _server_key = st.secrets.get("GEMINI_API_KEY", "")
-        except Exception:
-            pass
-        if not _server_key:
-            _server_key = os.environ.get("GEMINI_API_KEY", "")
-
-        if _server_key:
-            # Key sudah ada dari server — tampilkan status, tidak perlu input
+        # Tampilkan status key yang sedang aktif
+        _active_key = st.session_state.get("_manual_api_key", "")
+        if _active_key:
+            masked = _active_key[:8] + "•" * 20
             st.markdown(
-                '<div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);'
-                'border-radius:8px;padding:10px 14px;font-size:13px;color:#10B981;margin-bottom:8px;">'
-                '✅ API Key dikonfigurasi oleh admin (server-side)'
-                '</div>', unsafe_allow_html=True
+                f'<div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.3);'
+                f'border-radius:8px;padding:10px 14px;font-size:13px;color:#10B981;margin-bottom:8px;">'
+                f'✅ Key aktif: <code style="color:#34D399;font-size:12px">{masked}</code></div>',
+                unsafe_allow_html=True
             )
         else:
-            # Tidak ada server key — user memasukkan sendiri (per sesi)
-            st.caption("🔑 Masukkan Gemini API Key Anda. Key hanya tersimpan selama sesi ini dan tidak dikirim ke mana pun.")
-
-            # Tampilkan status jika sudah diisi
-            _current_key = st.session_state.get("_manual_api_key", "")
-            if _current_key:
-                masked = _current_key[:8] + "•" * 20
-                st.markdown(
-                    f'<div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);'
-                    f'border-radius:8px;padding:8px 12px;font-size:12px;color:#10B981;margin-bottom:6px;">'
-                    f'✅ Key aktif: <code style="color:#34D399">{masked}</code></div>',
-                    unsafe_allow_html=True
-                )
-
-            manual_key = st.text_input(
-                "API Key",
-                type="password",
-                placeholder="Masukkan Gemini API Key Anda (AIza...)",
-                label_visibility="collapsed",
+            st.markdown(
+                '<div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.3);'
+                'border-radius:8px;padding:10px 14px;font-size:13px;color:#F59E0B;margin-bottom:8px;">'
+                '⚠️ Belum ada API Key — masukkan di bawah ini'
+                '</div>', unsafe_allow_html=True
             )
-            if st.button("💾 Simpan API Key", use_container_width=True):
-                if manual_key.strip():
-                    st.session_state["_manual_api_key"] = manual_key.strip()
-                    st.success("✅ API Key berhasil disimpan untuk sesi ini!")
-                    st.rerun()
-                else:
-                    st.warning("API Key tidak boleh kosong.")
-            st.caption("🔗 Dapatkan API Key gratis di: [aistudio.google.com](https://aistudio.google.com)")
+
+        # Form input — selalu tampil agar user bisa update kapanpun
+        manual_key = st.text_input(
+            "API Key",
+            type="password",
+            placeholder="AIza...",
+            label_visibility="collapsed",
+        )
+        col_save, col_clear = st.columns(2)
+        if col_save.button("💾 Simpan", use_container_width=True):
+            if manual_key.strip():
+                st.session_state["_manual_api_key"] = manual_key.strip()
+                st.success("✅ API Key disimpan!")
+                st.rerun()
+            else:
+                st.warning("Masukkan API Key terlebih dahulu.")
+        if col_clear.button("🗑️ Hapus Key", use_container_width=True):
+            st.session_state.pop("_manual_api_key", None)
+            st.info("API Key dihapus dari sesi.")
+            st.rerun()
+        st.caption("🔗 Dapatkan API Key gratis: [aistudio.google.com](https://aistudio.google.com)")
         st.markdown("**⚙️ Mode AI**")
         mode = st.radio("Mode", ["🔍 RAG (Knowledge Base)", "🤖 Agent (Function Calling)"],
                         label_visibility="collapsed")
