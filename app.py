@@ -4,9 +4,28 @@ import base64
 import streamlit as st
 from pathlib import Path
 from datetime import datetime
-from dotenv import load_dotenv
 
-load_dotenv()
+# ── Ambil API key dengan aman (TIDAK pernah dikirim ke browser) ───────────────
+def get_api_key() -> str:
+    """
+    Urutan prioritas:
+    1. st.secrets (Streamlit Cloud — paling aman, server-side only)
+    2. Environment variable GEMINI_API_KEY (server lokal / .env)
+    3. Session state (input manual user via sidebar — hanya untuk dev lokal)
+    """
+    # 1. Streamlit Cloud Secrets
+    try:
+        key = st.secrets.get("GEMINI_API_KEY", "")
+        if key:
+            return key
+    except Exception:
+        pass
+    # 2. Environment variable
+    key = os.environ.get("GEMINI_API_KEY", "")
+    if key:
+        return key
+    # 3. Session state (input manual — hanya untuk dev lokal)
+    return st.session_state.get("_manual_api_key", "")
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -157,8 +176,8 @@ label[data-baseweb="radio"] { color: #94A3B8 !important; }
 
 # ── Session state ─────────────────────────────────────────────────────────────
 defaults = {
-    "messages": [], "rag_db": None, "rag_chain": None,
-    "retriever": None, "gemini_client": None, "gemini_history": [],
+    "messages": [], "rag_kb": None, "rag_chain": None,
+    "gemini_client": None, "gemini_history": [],
     "mode": "rag", "db_loaded": False, "uploaded_files": [],
     "active_nav": "Chat", "pending_prompt": "",
 }
@@ -201,8 +220,27 @@ with st.sidebar:
 
     if nav == "Pengaturan":
         st.markdown("**🔑 Gemini API Key**")
-        api_key = st.text_input("API Key", value=os.getenv("GEMINI_API_KEY",""),
-                                type="password", placeholder="AIza...", label_visibility="collapsed")
+        # Cek apakah key sudah terkonfigurasi via secrets/env
+        _key_from_server = get_api_key()
+        if _key_from_server:
+            st.markdown(
+                '<div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);'
+                'border-radius:8px;padding:10px 14px;font-size:13px;color:#10B981;">'
+                '✅ API Key sudah terkonfigurasi via Streamlit Secrets / Environment Variable'
+                '</div>', unsafe_allow_html=True
+            )
+        else:
+            # Hanya tampilkan input jika key BELUM ada di server (dev lokal)
+            st.caption("⚠️ Untuk production, set key di Streamlit Secrets. Input ini hanya untuk dev lokal.")
+            manual_key = st.text_input(
+                "API Key (dev lokal)",
+                type="password",
+                placeholder="AIza...",
+                label_visibility="collapsed",
+                help="Masukkan API key hanya untuk testing lokal. Jangan gunakan di production."
+            )
+            if manual_key:
+                st.session_state["_manual_api_key"] = manual_key
         st.markdown("**⚙️ Mode AI**")
         mode = st.radio("Mode", ["🔍 RAG (Knowledge Base)", "🤖 Agent (Function Calling)"],
                         label_visibility="collapsed")
@@ -215,22 +253,28 @@ with st.sidebar:
         rebuild_btn = c2.button("🔄 Rebuild", use_container_width=True)
 
         if (load_btn or rebuild_btn):
-            api_key_val = os.getenv("GEMINI_API_KEY", api_key)
+            api_key_val = get_api_key()
             if api_key_val:
                 try:
-                    from rag_engine import build_vector_db, build_rag_chain
-                    db = build_vector_db(api_key_val, force_rebuild=rebuild_btn)
-                    if db:
-                        rag_chain, retriever = build_rag_chain(api_key_val, db)
-                        st.session_state.rag_db = db
+                    from rag_engine import load_knowledge_base, build_rag_chain
+                    # Jika rebuild, clear cache dulu
+                    if rebuild_btn:
+                        load_knowledge_base.clear()
+                    with st.spinner("📄 Memuat knowledge base dari file TXT..."):
+                        kb = load_knowledge_base()
+                    if kb:
+                        rag_chain = build_rag_chain(api_key_val, kb)
+                        st.session_state.rag_kb = kb
                         st.session_state.rag_chain = rag_chain
-                        st.session_state.retriever = retriever
                         st.session_state.db_loaded = True
-                        st.success("✅ Knowledge base siap!")
+                        n_files = len(kb)
+                        st.success(f"✅ Knowledge base siap! ({n_files} file dimuat)")
+                    else:
+                        st.error("Tidak ada file TXT ditemukan di BERKAS RAG PROJECT.")
                 except Exception as e:
                     st.error(f"Error: {e}")
             else:
-                st.warning("Masukkan API Key dulu.")
+                st.warning("Masukkan API Key dulu di kolom di atas.")
 
     elif nav == "Upload Dokumen":
         st.markdown("**📎 Upload Dokumen PDF**")
@@ -238,19 +282,21 @@ with st.sidebar:
                                     accept_multiple_files=True, label_visibility="collapsed")
         api_key_env = os.getenv("GEMINI_API_KEY", "")
         if uploaded and st.button("📥 Index Dokumen", use_container_width=True):
-            if not api_key_env:
-                st.warning("Set GEMINI_API_KEY di Pengaturan.")
-            else:
-                from rag_engine import index_uploaded_file
-                for uf in uploaded:
-                    with st.spinner(f"Indexing {uf.name}..."):
-                        try:
-                            n_chunks, n_pages = index_uploaded_file(uf.read(), uf.name, api_key_env)
-                            st.success(f"✅ {uf.name}: {n_pages} hal, {n_chunks} chunks")
-                            if uf.name not in st.session_state.uploaded_files:
-                                st.session_state.uploaded_files.append(uf.name)
-                        except Exception as e:
-                            st.error(f"Gagal: {e}")
+            from rag_engine import index_uploaded_file
+            # Pastikan kb sudah ada
+            if st.session_state.rag_kb is None:
+                from rag_engine import load_knowledge_base
+                st.session_state.rag_kb = load_knowledge_base()
+            for uf in uploaded:
+                with st.spinner(f"Membaca {uf.name}..."):
+                    try:
+                        n_chunks, n_pages = index_uploaded_file(
+                            uf.read(), uf.name, st.session_state.rag_kb)
+                        st.success(f"✅ {uf.name}: {n_pages} hal, {n_chunks} chunks")
+                        if uf.name not in st.session_state.uploaded_files:
+                            st.session_state.uploaded_files.append(uf.name)
+                    except Exception as e:
+                        st.error(f"Gagal: {e}")
         if st.session_state.uploaded_files:
             st.markdown("**File terindex:**")
             for f in st.session_state.uploaded_files:
@@ -318,8 +364,8 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# Ambil API key dari env (sudah di-set di Pengaturan atau .env)
-api_key = os.getenv("GEMINI_API_KEY", "")
+# Ambil API key secara aman — server-side only, tidak dikirim ke browser
+api_key = get_api_key()
 
 # ── MAIN AREA ─────────────────────────────────────────────────────────────────
 now = datetime.now()
@@ -424,13 +470,12 @@ if query:
     with st.spinner("NusaArtha AI sedang berpikir..."):
         try:
             if st.session_state.mode == "rag":
-                if not st.session_state.db_loaded:
+                if not st.session_state.db_loaded or st.session_state.rag_chain is None:
                     resp = "⚠️ Knowledge base belum dimuat. Buka menu **Pengaturan** → klik **▶ Muat KB**."
                     sources = []
                 else:
-                    resp = st.session_state.rag_chain.invoke(query)
-                    from rag_engine import get_source_docs
-                    sources = get_source_docs(st.session_state.retriever, query)
+                    # rag_chain sekarang mengembalikan (answer, sources)
+                    resp, sources = st.session_state.rag_chain(query)
                 st.session_state.messages.append({"role": "assistant", "content": resp, "sources": sources})
             else:
                 from gemini_agent import create_finance_agent, chat_with_function_calling

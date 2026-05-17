@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+*.egg
+
+# Environment / Secrets — JANGAN pernah commit file ini!
+.env
+.env.local
+.env.production
+secrets.toml
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Vector Database (tidak perlu di-commit, akan dibuild ulang)
+chroma_finance_db/
+*.chroma
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
