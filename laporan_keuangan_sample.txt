@@ -1,0 +1,339 @@
+================================================================================
+LAPORAN KEUANGAN PRIBADI BULANAN
+Tahun 2025
+================================================================================
+
+
+LAPORAN JANUARI 2025
+================================================================================
+
+DATA DIRI:
+  Nama: Adi Pratama
+  Status: Tidak Kawin, 0 Tanggungan (TK/0)
+  Pekerjaan: Software Engineer di PT Tech Indonesia
+  PTKP Status: TK/0 = Rp 54.000.000/tahun (Rp 4.500.000/bulan)
+  Lokasi: Jakarta
+
+PENGHASILAN (BRUTO):
+  ────────────────────────────
+  Gaji Pokok             : Rp  8.500.000
+  Tunjangan Makan        : Rp    500.000
+  Tunjangan Transportasi : Rp    300.000
+  Tunjangan Komunikasi   : Rp    200.000
+  ────────────────────────────
+  TOTAL PENGHASILAN BRUTO: Rp  9.500.000
+
+PENGURANG PENGHASILAN:
+  ────────────────────────────
+  Biaya Jabatan (5%)     : Rp   (475.000)
+  Iuran Pensiun (Dana)   : Rp  (100.000)
+  BPJS Ketenagakerjaan   : Rp  (150.000)  [2% JHT + 1% JP]
+  ────────────────────────────
+  TOTAL PENGURANG        : Rp   (725.000)
+
+PERHITUNGAN PPh 21:
+  ────────────────────────────
+  Penghasilan Bruto      : Rp  9.500.000
+  TER Januari (5%)       : Rp  9.500.000 × 5% = Rp 475.000
+  
+  Catatan: Penghasilan bruto Rp 9.5 juta masuk bracket 4,5jt - 10jt
+           sehingga TER-nya 5% (bukan tarif progresif)
+
+PENGHASILAN NETTO:
+  ────────────────────────────
+  Penghasilan Bruto      : Rp  9.500.000
+  Dikurangi PPh 21       : Rp   (475.000)
+  PENGHASILAN NETTO      : Rp  9.025.000
+
+PENGELUARAN TETAP (WAJIB):
+  ────────────────────────────
+  Cicilan KPR            : Rp  1.500.000  [DP rumah 20%, tenor 15 tahun]
+  Asuransi Jiwa          : Rp    100.000  [premi bulanan]
+  Asuransi Kendaraan     : Rp    250.000  [motor cicil]
+  Listrik & Air          : Rp    350.000
+  Internet & Telepon     : Rp    150.000
+  ────────────────────────────
+  SUBTOTAL PENGELUARAN TETAP: Rp 2.350.000
+
+PENGELUARAN VARIABEL (KONSUMSI):
+  ────────────────────────────
+  Makanan & Groceries    : Rp  2.000.000  [makan di rumah + makan out 2x/minggu]
+  Transportasi (Bensin)  : Rp    300.000
+  Hiburan & Rekreasi     : Rp    400.000  [nonton bioskop, jalan-jalan]
+  Fashion & Kebutuhan    : Rp    250.000  [pakaian, sepatu, aksesoris]
+  Kesehatan & Kecantikan : Rp    200.000  [skincare, potong rambut]
+  ────────────────────────────
+  SUBTOTAL PENGELUARAN VARIABEL: Rp 3.150.000
+
+INVESTASI & TABUNGAN:
+  ────────────────────────────
+  Reksadana Saham (Bibit): Rp    500.000  [SIP bulanan, Reksadana Saham]
+  Saham Individual       : Rp    300.000  [beli saham BBCA atau BBRI]
+  Obligasi Negara (ORI)  : Rp    200.000  [monthly)
+  Tabungan Darurat       : Rp    200.000
+  ────────────────────────────
+  SUBTOTAL INVESTASI     : Rp  1.200.000
+
+TOTAL PENGELUARAN & INVESTASI:
+  ────────────────────────────
+  Pengeluaran Tetap      : Rp  2.350.000
+  Pengeluaran Variabel   : Rp  3.150.000
+  Investasi & Tabungan   : Rp  1.200.000
+  ────────────────────────────
+  TOTAL                  : Rp  6.700.000
+
+SISA / SURPLUS:
+  ────────────────────────────
+  Penghasilan Netto      : Rp  9.025.000
+  Total Pengeluaran      : Rp  6.700.000
+  ────────────────────────────
+  SISA BULAN INI         : Rp  2.325.000
+  
+  Penggunaan Sisa:
+  - Tabungan tambahan: Rp 1.000.000
+  - Buffer emergency: Rp 1.325.000
+
+KETERANGAN KHUSUS JANUARI:
+  - Penerimaan 1 bulan gaji normal tanpa bonus
+  - Perjalanan dinas ke Bali, tidak ada biaya tambahan signifikan
+  - Kesehatan normal, tidak ada pengeluaran kesehatan luar biasa
+  - Portfolio saham: BBCA naik 2%, BBRI naik 1,5%
+  - Saldo tabungan darurat: Rp 12 juta (target 18 juta)
+
+
+================================================================================
+LAPORAN FEBRUARI 2025
+================================================================================
+
+DATA DIRI: [sama dengan Januari]
+
+PENGHASILAN (BRUTO):
+  ────────────────────────────
+  Gaji Pokok             : Rp  8.500.000
+  Tunjangan Makan        : Rp    500.000
+  Tunjangan Transportasi : Rp    300.000
+  Tunjangan Komunikasi   : Rp    200.000
+  ────────────────────────────
+  TOTAL PENGHASILAN BRUTO: Rp  9.500.000
+
+PERHITUNGAN PPh 21:
+  PPh 21 Februari (5%)   : Rp    475.000
+
+PENGHASILAN NETTO: Rp 9.025.000 (sama dengan Januari)
+
+PENGELUARAN TETAP:
+  Cicilan KPR            : Rp  1.500.000
+  Asuransi Jiwa          : Rp    100.000
+  Asuransi Kendaraan     : Rp    250.000
+  Listrik & Air          : Rp    350.000
+  Internet & Telepon     : Rp    150.000
+  ────────────────────────────
+  SUBTOTAL PENGELUARAN TETAP: Rp 2.350.000
+
+PENGELUARAN VARIABEL:
+  Makanan & Groceries    : Rp  2.000.000
+  Transportasi (Bensin)  : Rp    300.000
+  Hiburan & Rekreasi     : Rp    500.000  [ada event musik, biaya naik]
+  Fashion & Kebutuhan    : Rp    150.000  [lebih hemat dari Januari]
+  Kesehatan & Kecantikan : Rp    200.000
+  ────────────────────────────
+  SUBTOTAL PENGELUARAN VARIABEL: Rp 3.150.000
+
+INVESTASI & TABUNGAN:
+  Reksadana Saham        : Rp    500.000
+  Saham Individual       : Rp    300.000
+  Obligasi Negara (ORI)  : Rp    200.000
+  Tabungan Darurat       : Rp    200.000
+  ────────────────────────────
+  SUBTOTAL INVESTASI     : Rp  1.200.000
+
+TOTAL PENGELUARAN: Rp 6.700.000
+
+SISA: Rp 2.325.000
+
+KETERANGAN KHUSUS FEBRUARI:
+  - Gaji normal, tidak ada bonus/tunjangan tambahan
+  - Pengeluaran hiburan naik karena ada event musik (Rp 500k instead of 400k)
+  - Portfolio saham: BBCA turun 1%, BBRI tetap
+  - Reksadana Saham (Bibit) NAB naik 2,5% untuk bulan ini
+  - Saldo tabungan darurat: Rp 13 juta (progress menuju target 18 juta)
+  - Target: Lanjutkan investasi rutin setiap bulan
+
+
+================================================================================
+LAPORAN MARET 2025
+================================================================================
+
+DATA DIRI: [sama]
+
+PENGHASILAN (BRUTO):
+  Gaji Pokok             : Rp  8.500.000
+  Tunjangan Makan        : Rp    500.000
+  Tunjangan Transportasi : Rp    300.000
+  Tunjangan Komunikasi   : Rp    200.000
+  BONUS KINERJA (KHUSUS) : Rp  2.000.000  ← PENAMBAHAN!
+  ────────────────────────────
+  TOTAL PENGHASILAN BRUTO: Rp 11.500.000
+
+PERHITUNGAN PPh 21 MARET:
+  Penghasilan Bruto      : Rp 11.500.000
+  TER Maret (10%)        : Rp 11.500.000 × 10% = Rp 1.150.000
+  
+  Catatan: Karena ada bonus, penghasilan bruto naik jadi Rp 11,5 juta
+           Masuk bracket 10jt - 20jt, sehingga TER-nya naik jadi 10%
+           PPh 21 jadi lebih besar: Rp 1.150.000 (vs Rp 475.000 normal)
+
+PENGHASILAN NETTO:
+  Penghasilan Bruto      : Rp 11.500.000
+  Dikurangi PPh 21       : Rp (1.150.000)
+  PENGHASILAN NETTO      : Rp 10.350.000
+
+PENGELUARAN TETAP: Rp 2.350.000 (sama)
+
+PENGELUARAN VARIABEL:
+  Makanan & Groceries    : Rp  2.000.000
+  Transportasi (Bensin)  : Rp    350.000  [naik karena perjalanan lebih banyak]
+  Hiburan & Rekreasi     : Rp    350.000
+  Fashion & Kebutuhan    : Rp    300.000  [beli jam tangan, naik dari biasanya]
+  Kesehatan & Kecantikan : Rp    200.000
+  ────────────────────────────
+  SUBTOTAL PENGELUARAN VARIABEL: Rp 3.200.000
+
+INVESTASI & TABUNGAN:
+  Reksadana Saham        : Rp  1.000.000  [naik dari 500k, karena ada bonus]
+  Saham Individual (BBCA): Rp    500.000  [beli BBCA lebih banyak]
+  Obligasi Negara (ORI)  : Rp    300.000
+  Tabungan Darurat       : Rp    500.000  [naik signifikan]
+  ────────────────────────────
+  SUBTOTAL INVESTASI     : Rp  2.300.000
+
+TOTAL PENGELUARAN: Rp 7.850.000
+
+SISA: Rp 2.500.000
+
+KETERANGAN KHUSUS MARET:
+  - Menerima bonus kinerja Rp 2 juta (hasil appraisal bagus)
+  - Penghasilan bruto naik 21% dari bulan biasanya
+  - PPh 21 naik signifikan ke Rp 1,15 juta (effect dari bonus)
+  - Gunakan sebagian bonus untuk investasi & tabungan darurat
+  - Portfolio saham sekarang:
+    * BBCA: 100 saham (value ~Rp 980.000)
+    * BBRI: 50 saham (value ~Rp 440.000)
+    Total equity: ~Rp 1.420.000 (profit ~2%)
+  - Reksadana Saham (Bibit): NAB turun 1% bulan ini (normal volatilitas)
+  - Saldo tabungan darurat: Rp 14 juta (masih target 18 juta)
+  - Planning: Lanjut akumulasi investasi setiap bulan
+
+
+================================================================================
+PORTFOLIO INVESTASI - SNAPSHOT MARET 2025
+================================================================================
+
+REKSADANA:
+  - Bibit Saham (Growth Fund)
+    Kepemilikan: 5.650 unit
+    Harga NAB: Rp 2.200/unit (per 31 Maret)
+    Nilai: Rp 12.430.000
+    Contribution YTD: Rp 2.000.000
+    Profit/(Loss): +Rp 10.430.000 (wait, ini typo - seharusnya lebih kecil)
+    
+    Correction: Jika contribution Rp 2 juta, NAB sekarang Rp 2.200:
+    Kepemilikan ≈ 909 unit (Rp 2.000.000 / Rp 2.200)
+    Nilai sekarang: ≈ Rp 2.000.000 (masih break even dengan biaya)
+    Status: Hold, SIP bulanan dilanjutkan
+
+SAHAM:
+  - PT Bank Central Asia (BBCA)
+    Kepemilikan: 100 saham
+    Harga beli rata-rata: Rp 9.750/saham
+    Harga saat ini: Rp 9.850/saham (31 Maret)
+    Nilai: Rp 985.000
+    Profit: Rp 10.000 (+1%)
+    Dividend: Terakhir dividen final 2024 = Rp 400/saham, total Rp 40.000
+    Status: Hold, akan tambah saat ada duit
+
+  - PT Bank Rakyat Indonesia (BBRI)
+    Kepemilikan: 50 saham
+    Harga beli rata-rata: Rp 8.800/saham
+    Harga saat ini: Rp 8.900/saham (31 Maret)
+    Nilai: Rp 445.000
+    Profit: Rp 5.000 (+1,1%)
+    Dividend: Dividen interim 2024 = Rp 75/saham, total Rp 3.750
+    Status: Hold
+
+OBLIGASI NEGARA:
+  - ORI023 (Jatuh Tempo: 2027)
+    Kepemilikan: 5 lembar nominal Rp 1.000.000 = Rp 5.000.000
+    Harga pembelian: Par (100)
+    Kupon: 5,7% per tahun (2,85% setiap 6 bulan)
+    Kupon terima Maret: Rp 5.000.000 × 2,85% = Rp 142.500
+    Pajak kupon (10%): -Rp 14.250
+    Net kupon: Rp 128.250
+    Status: Hold until maturity (2027), kurasi passive income
+
+TABUNGAN & CASH:
+  - Tabungan Darurat (BCA): Rp 14.000.000
+  - Cash/Emergency Buffer: Rp 500.000
+  Total Liquid: Rp 14.500.000
+
+RINGKASAN PORTFOLIO MARET 2025:
+  ────────────────────────────────────────
+  Reksadana Saham Bibit    : ~Rp  2.000.000
+  Saham Lokal (BBCA+BBRI)  : ~Rp  1.430.000
+  Obligasi Negara (ORI)    : Rp  5.000.000
+  Tabungan Darurat         : Rp 14.000.000
+  Cash                     : Rp    500.000
+  ────────────────────────────────────────
+  TOTAL ASSET              : Rp 22.930.000
+
+ALLOCATION:
+  Saham & Reksadana (Growth) : 15% (Rp 3.430.000)
+  Obligasi (Income)         : 22% (Rp 5.000.000)
+  Tabungan/Darurat (Safety) : 63% (Rp 14.500.000)
+
+TARGET REBALANCING (next 6 months):
+  Saham & Reksadana        : Naik ke 25%
+  Obligasi                 : Tetap 20-25%
+  Tabungan Darurat         : Tetap 18 juta minimum, increase jika perlu
+
+
+================================================================================
+SUMMARY & INSIGHTS QUARTER 1 2025
+================================================================================
+
+PENGHASILAN QUARTER 1:
+  Januari     : Rp  9.500.000 (normal)
+  Februari    : Rp  9.500.000 (normal)
+  Maret       : Rp 11.500.000 (+ bonus Rp 2 juta)
+  ────────────
+  TOTAL Q1    : Rp 30.500.000 (rata-rata: Rp 10.167.000/bulan)
+
+PENGELUARAN OPERASIONAL TOTAL Q1: Rp 19.300.000
+INVESTASI TOTAL Q1: Rp 4.800.000
+SISA/SURPLUS Q1: Rp 6.400.000
+
+PPh 21 PAID Q1:
+  Januari: Rp    475.000
+  Februari: Rp   475.000
+  Maret: Rp    1.150.000
+  Total: Rp   2.100.000 (effective rate: 2.1% / 0.3% by month)
+
+OBSERVASI:
+  1. Penghasilan stabil, bonus dapat di Q1 → bagus untuk cash flow
+  2. Pengeluaran terkontrol, ratio spending 63% dari net income → sehat
+  3. Investasi baru dimulai di Q1, accumulating positions di saham & reksadana
+  4. Portfolio diversified: 15% growth (saham), 22% income (obligasi), 63% safety
+  5. Tabungan darurat sudah Rp 14 juta, target Rp 18 juta in 2 more months
+  6. Tax awareness: PPh 21 automatically deducted, no additional pajak needed
+
+GOALS FOR Q2 2025:
+  □ Naik tabungan darurat jadi Rp 18 juta
+  □ Tambah saham BBCA total 150 shares
+  □ Mulai accumulating crypto (BTC/ETH) small portion (Rp 100-200k/month)
+  □ Evaluate reksadana performance, rebalance if needed
+  □ Learn more about tax planning untuk year-end
+
+================================================================================
+Catatan: Data ini adalah simulasi/fiktif untuk keperluan chatbot RAG.
+         Disesuaikan dengan kondisi real bisa berbeda dari template ini.
+================================================================================

@@ -1,0 +1,303 @@
+================================================================================
+RINGKASAN PPh PASAL 21: PAJAK PENGHASILAN ATAS GAJI & HONORARIUM
+Berlaku: 2024-2025 (PMK 168/2023 & PMK 10/2025)
+================================================================================
+
+1. DEFINISI & SUBJEK PPh 21
+================================================================================
+
+PPh Pasal 21 adalah pajak yang dipotong atas penghasilan yang diterima oleh 
+wajib pajak orang pribadi sehubungan dengan:
+  - Pekerjaan (gaji, upah)
+  - Jabatan (tunjangan jabatan, tunjangan fungsional)
+  - Jasa (honor, komisi, royalti)
+  - Kegiatan tertentu
+
+Pemotong pajak: Pemberi kerja atau pihak yang membayarkan penghasilan.
+
+Penghasilan yang dikenakan PPh 21:
+  - Gaji pokok
+  - Tunjangan (makan, transportasi, perumahan, komunikasi, dll)
+  - Lembur
+  - Bonus, gratifikasi (jika tetap/berkala)
+  - THR
+  - Natura tertentu (rumah dinas, fasilitas kendaraan eksekutif, fasilitas 
+    olahraga eksklusif)
+  - Uang pesangon, manfaat pensiun
+
+Penghasilan yang TIDAK dipotong PPh 21:
+  - Tunjangan jabatan fungsional tertentu
+  - Natura konsumsi (makan di kantor, fasilitas kesehatan BPJS, sarana kerja 
+    seperti laptop/seragam)
+  - Penghasilan di bawah PTKP (untuk pegawai harian/mingguan)
+
+
+2. PTKP (PENGHASILAN TIDAK KENA PAJAK) 2024-2025
+================================================================================
+
+Berlaku untuk pegawai tetap. Dasar: PMK 101/2016 (updated 2024):
+
+Status Pernikahan & Tanggungan:
+  TK/0 (Tidak Kawin, 0 tanggungan)           = Rp 54.000.000/tahun
+  TK/1 (Tidak Kawin, 1 tanggungan)           = Rp 58.500.000/tahun
+  TK/2 (Tidak Kawin, 2 tanggungan)           = Rp 63.000.000/tahun
+  TK/3 (Tidak Kawin, 3 tanggungan)           = Rp 67.500.000/tahun
+
+  K/0 (Kawin, 0 tanggungan)                  = Rp 58.500.000/tahun
+  K/1 (Kawin, 1 tanggungan)                  = Rp 63.000.000/tahun
+  K/2 (Kawin, 2 tanggungan)                  = Rp 67.500.000/tahun
+  K/3 (Kawin, 3 tanggungan)                  = Rp 72.000.000/tahun
+
+  K/I/0 (Kawin + Istri Punya NPWP, 0 tang.) = Rp 112.500.000/tahun
+  K/I/1 (Kawin + Istri Punya NPWP, 1 tang.) = Rp 117.000.000/tahun
+  K/I/2 (Kawin + Istri Punya NPWP, 2 tang.) = Rp 121.500.000/tahun
+  K/I/3 (Kawin + Istri Punya NPWP, 3 tang.) = Rp 126.000.000/tahun
+
+Catatan: Maksimal 3 tanggungan.
+
+
+3. KOMPONEN PENGURANG PENGHASILAN KENA PAJAK
+================================================================================
+
+Pengurang Penghasilan Bruto:
+  
+  a) Biaya Jabatan (untuk pegawai tetap):
+     - 5% dari penghasilan bruto, max Rp 550.000/bulan
+     - Contoh: Gaji Rp 10 juta → Biaya jabatan Rp 500.000
+  
+  b) Iuran Pensiun:
+     - Iuran pensiun wajib ke Dana Pensiun (dibayar karyawan)
+     - Contoh: Dana pensiun 1% x gaji = Rp 100.000/bulan
+  
+  c) Iuran Jaminan Sosial (Setelah PMK 66/2023):
+     - BPJS Ketenagakerjaan (JHT 2%, JP 1% ditanggung karyawan)
+     - BPJS Kesehatan (1% ditanggung karyawan jika ada kesepakatan)
+     - Diterapkan sebagai pengurang untuk TER sejak Jan 2024
+
+Pengurang PKP (di Masa Pajak Terakhir/Desember):
+  - Zakat/Sumbangan keagamaan wajib yang dibayar melalui pemberi kerja
+
+
+4. SKEMA PERHITUNGAN PPh 21: PROGRESIF vs TER
+================================================================================
+
+Sejak 1 Januari 2024, ada DUA skema perhitungan:
+
+A. SKEMA TARIF PROGRESIF (Masa Pajak Terakhir = DESEMBER)
+   Digunakan untuk perhitungan tahunan dan final adjustment
+   
+   Formula:
+   PPh 21 Tahunan = (Ph. Bruto Setahun - Biaya Jabatan - Iuran Pensiun - PTKP) × Tarif Pasal 17
+
+B. SKEMA TARIF EFEKTIF RATA-RATA / TER (Januari - November)
+   Skema baru untuk menyederhanakan perhitungan bulanan
+   
+   Formula Bulanan:
+   PPh 21 = Ph. Bruto Sebulan × TER Bulanan (%)
+   
+   Tabel TER Bulanan 2024 (berdasarkan penghasilan bruto):
+   ┌──────────────────────────┬─────────────────┬──────────────┐
+   │ Penghasilan Bruto/Bulan  │ TER (%)          │ Contoh       │
+   ├──────────────────────────┼─────────────────┼──────────────┤
+   │ s.d. Rp 4.500.000        │ 0%               │ Tdk dipotong │
+   │ > Rp 4.500.000 - 10.000.000  │ 5%           │ Rp 9jt → 450rb │
+   │ > Rp 10.000.000 - 20.000.000 │ 10%          │ Rp 15jt → 1,5jt │
+   │ > Rp 20.000.000 - 30.000.000 │ 14%          │ Rp 25jt → 3,5jt │
+   │ > Rp 30.000.000 - 50.000.000 │ 16%          │ Rp 40jt → 6,4jt │
+   │ > Rp 50.000.000 - 100.000.000 │ 18%         │ Rp 70jt → 12,6jt │
+   │ > Rp 100.000.000         │ 20%              │ Rp 150jt → 30jt │
+   └──────────────────────────┴─────────────────┴──────────────┘
+
+
+5. CONTOH PERHITUNGAN PPh 21 (TAHUN 2024-2025)
+================================================================================
+
+CONTOH 1: Pegawai Tetap, Gaji Rp 9 juta/bulan, Status TK/0
+
+Bulan Januari - November (menggunakan TER):
+  Penghasilan Bruto = Rp 9.000.000
+  TER Bulanan = 5% (karena 4,5jt < 9jt ≤ 10jt)
+  PPh 21 Januari = Rp 9.000.000 × 5% = Rp 450.000
+  Setiap bulan sampai November dipotong Rp 450.000
+
+Bulan Desember (Perhitungan Tahunan dengan Tarif Progresif):
+  Ph. Bruto Setahun     = Rp 9.000.000 × 12 = Rp 108.000.000
+  Biaya Jabatan (5%)    = Rp 9.000.000 × 5% × 12 = Rp 5.400.000
+  (capped Rp 550.000 × 12 = Rp 6.600.000, jadi ambil 5.400.000)
+  
+  PTKP (TK/0)           = Rp 54.000.000
+  
+  PKP = Rp 108.000.000 - Rp 5.400.000 - Rp 54.000.000 = Rp 48.600.000
+  
+  Tarif Pasal 17:
+    s.d. Rp 60.000.000 → 5% × Rp 48.600.000 = Rp 2.430.000
+  
+  PPh 21 Tahunan = Rp 2.430.000
+  Dikurangi PPh sudah dipotong (Jan-Nov) = 11 × Rp 450.000 = Rp 4.950.000
+  
+  PPh 21 Masa Terakhir (Desember) = Rp 2.430.000 - Rp 4.950.000
+                                   = (Rp 2.520.000) ← LEBIH BAYAR
+  
+  → Kelebihan dibayarkan kembali atau diperhitungkan tahun depan
+
+
+CONTOH 2: Pegawai Tidak Tetap, Honor Rp 1.000.000/bulan (10 hari kerja)
+
+Penghasilan Tidak Tetap (≤ Rp 4.5 juta/bulan atau ≤ Rp 150.000/hari):
+  Tarif TER Harian = 0,5% untuk pegawai harian/mingguan
+  
+  Honor Harian = Rp 1.000.000 ÷ 20 hari = Rp 50.000/hari
+  PPh 21 = Rp 50.000 × 0,5% = Rp 250/hari
+  
+  Atau jika diterima lump sum Rp 1.000.000:
+  PPh 21 = Rp 1.000.000 × TER (5%) = Rp 50.000
+
+
+CONTOH 3: Bonus/Penghasilan Tidak Tetap (Oktober 2024)
+
+Gaji tetap: Rp 9.000.000
+Bonus: Rp 5.000.000
+
+Penghasilan Bruto Oktober = Rp 9.000.000 + Rp 5.000.000 = Rp 14.000.000
+
+TER Oktober = 10% (karena 10jt < 14jt ≤ 20jt)
+PPh 21 Oktober = Rp 14.000.000 × 10% = Rp 1.400.000
+
+(Catatan: Bonus dianggap bagian dari penghasilan bulanan, bukan dihitung 
+terpisah, sehingga TER-nya bisa naik)
+
+
+6. TARIF PAJAK PASAL 17 (untuk Masa Terakhir)
+================================================================================
+
+Untuk wajib pajak orang pribadi dalam negeri:
+
+┌───────────────────────────────┬────────┐
+│ Penghasilan Kena Pajak (PKP)  │ Tarif  │
+├───────────────────────────────┼────────┤
+│ s.d. Rp 60.000.000            │ 5%     │
+│ > Rp 60.000.000 - 250.000.000 │ 15%    │
+│ > Rp 250.000.000 - 500.000.000│ 25%    │
+│ > Rp 500.000.000              │ 35%    │
+└───────────────────────────────┴────────┘
+
+Catatan: Tarif ini bersifat progresif dengan perhitungan bertingkat.
+
+
+7. INSENTIF PPh 21 DITANGGUNG PEMERINTAH (2025)
+================================================================================
+
+Berdasarkan PMK 10/2025, pekerja tertentu di sektor prioritas mendapat insentif.
+
+Kriteria:
+  - Penghasilan bruto tetap & teratur ≤ Rp 10.000.000/bulan (bulan pertama)
+  - Bekerja di industri/KLU tertentu (tekstil, perhotelan, pertanian, dll)
+
+Jika memenuhi syarat → PPh 21 atas penghasilan setahun ditanggung pemerintah 
+(Rp 0)
+
+Contoh: Pekerja tekstil gaji Rp 8.000.000/bulan → PPh 21 ditanggung pemerintah 
+selamanya di tahun 2025.
+
+
+8. PENGHASILAN TIDAK KENA PAJAK (Khusus Pegawai Harian/Mingguan)
+================================================================================
+
+Penghasilan Harian/Mingguan yang TIDAK DIPOTONG PPh 21:
+  - Upah rata-rata per hari ≤ Rp 450.000
+  - Kumulatif penghasilan bulan itu < Rp 4.500.000
+
+Jika melebihi batas → Gunakan TER Harian = 0,5% × penghasilan
+
+
+9. PAJAK FINAL PENGHASILAN TIDAK TETAP (PMK 252/2008)
+================================================================================
+
+Untuk honor/jasa yang BUKAN pegawai tetap:
+  
+  Jenis Penghasilan           Tarif Pajak Final
+  ────────────────────────────────────────────────
+  Honor, honorarium           10% (atau sesuai perjanjian)
+  Komisi, royalti             10%
+  Sewa tanah/bangunan         10% (untuk bukan PPh 4 ayat 2)
+  Hadiah undian               10%
+
+Dipotong langsung oleh pemberi honor, bukan menggunakan TER.
+
+
+10. REKAPITULASI PROSES PPh 21 (BULANAN + AKHIR TAHUN)
+================================================================================
+
+Januari - November:
+  1. Hitung penghasilan bruto (gaji + tunjangan + lembur + lain-lain)
+  2. Kurangi biaya jabatan/iuran pensiun
+  3. Tentukan TER sesuai penghasilan bruto
+  4. Potong PPh 21 = Penghasilan Bruto × TER (%)
+  5. Setor ke Kas Negara paling lambat tgl 10 bulan berikutnya
+  6. Laporkan SPT Masa PPh 21/26
+
+Desember (Masa Pajak Terakhir):
+  1. Hitung total penghasilan bruto SETAHUN
+  2. Kurangi biaya jabatan/iuran pensiun/zakat
+  3. Kurangi PTKP
+  4. Hitung PKP tahunan
+  5. Hitung PPh 21 setahun dengan Tarif Progresif Pasal 17
+  6. Kurangi dengan jumlah PPh 21 yang sudah dipotong Jan-Nov
+  7. Hasil = PPh 21 Masa Terakhir (bisa + atau -)
+  8. Jika kurang bayar → potong di gaji Desember
+  9. Jika lebih bayar → kembalikan atau kredit ke tahun depan
+  10. Setor dan laporkan SPT Tahunan PPh Orang Pribadi (Form 1770/1770S)
+
+
+11. DOKUMEN & BUKTI PAJAK
+================================================================================
+
+Pemotong harus menerbitkan:
+  - Bukti Potong PPh 21 (Form 1721 A1) untuk pegawai tetap
+  - Bukti Potong PPh 21 (Form 1721 A2) untuk non-pegawai/jasa/kegiatan
+  - Laporan Daftar Penerima (Form 1721 IT) bulanan
+  - Rekapitulasi (Form 1721 A3) akhir tahun
+
+Pelaporan:
+  - SPT Masa PPh 21/26 (tgl 20 bulan berikutnya)
+  - SPT Tahunan PPh OP (tgl 31 Maret tahun berikutnya)
+
+
+12. ISTILAH & DEFINISI PENTING
+================================================================================
+
+Penghasilan Bruto
+  = Total semua penghasilan sebelum dikurangi apapun
+
+Penghasilan Kena Pajak (PKP)
+  = Penghasilan Bruto - Pengurang (PTKP, Biaya Jabatan, Iuran Pensiun)
+
+PTKP
+  = Penghasilan Tidak Kena Pajak (standar sesuai status pernikahan)
+
+TER (Tarif Efektif Rata-rata)
+  = Tarif sederhana berdasarkan bracket penghasilan bruto
+
+Tarif Progresif
+  = Tarif berlapis yang diterapkan per tingkatan PKP
+
+Masa Pajak
+  = Periode 1 bulan kalender (Januari = masa Januari, dst)
+
+Masa Pajak Terakhir
+  = Bulan Desember, perhitungan PPh 21 disetahunkan
+
+
+13. REFERENSI REGULASI
+================================================================================
+
+- Undang-Undang No. 36 Tahun 2008 (Pajak Penghasilan) s.t.d UU No. 7/2021
+- Peraturan Pemerintah No. 58 Tahun 2023 (Tarif PPh 21)
+- PMK 168 Tahun 2023 (Petunjuk Teknis Tarif Efektif Rata-rata)
+- PMK 10 Tahun 2025 (PPh 21 Ditanggung Pemerintah 2025)
+- Peraturan Direktur Jenderal Pajak PER-16/PJ/2016
+
+================================================================================
+Catatan: Ringkasan ini berlaku untuk tahun pajak 2024-2025. Perubahan regulasi
+bisa terjadi. Selalu verifikasi dengan sumber resmi Kemenkeu/DJP.
+================================================================================
