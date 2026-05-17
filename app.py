@@ -52,7 +52,56 @@ st.markdown("""
 
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 .stApp { background: #0F172A; color: #E2E8F0; }
-#MainMenu, footer, header { visibility: hidden; }
+
+/* Sembunyikan hanya elemen header yang tidak perlu,
+   BUKAN button collapse sidebar */
+#MainMenu { visibility: hidden; }
+footer    { visibility: hidden; }
+
+/* Sembunyikan tulisan "NusaArtha AI" bawaan Streamlit di header,
+   tapi TAMPILKAN tombol collapse/expand sidebar */
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    height: 0 !important;
+    min-height: 0 !important;
+}
+
+/* ── Tombol Toggle Sidebar (collapse / expand) ─────────────────────────── */
+/* Tombol saat sidebar TERBUKA (posisi di dalam sidebar, sudut kanan atas) */
+[data-testid="collapsedControl"],
+button[kind="header"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Styling tombol toggle agar sesuai tema dark */
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="collapsedControl"] {
+    background: #1E293B !important;
+    border: 1px solid rgba(16,185,129,0.4) !important;
+    border-radius: 0 8px 8px 0 !important;
+    color: #10B981 !important;
+    width: 28px !important;
+    min-width: 28px !important;
+    height: 48px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    box-shadow: 2px 0 12px rgba(16,185,129,0.15) !important;
+    transition: all 0.2s !important;
+    z-index: 999 !important;
+}
+[data-testid="stSidebarCollapsedControl"]:hover,
+[data-testid="collapsedControl"]:hover {
+    background: rgba(16,185,129,0.2) !important;
+    box-shadow: 2px 0 20px rgba(16,185,129,0.3) !important;
+}
+/* Icon warna hijau */
+[data-testid="stSidebarCollapsedControl"] svg,
+[data-testid="collapsedControl"] svg {
+    fill: #10B981 !important;
+    color: #10B981 !important;
+}
 
 /* Sidebar */
 [data-testid="stSidebar"] {
@@ -175,6 +224,7 @@ label[data-baseweb="radio"] { color: #94A3B8 !important; }
 """, unsafe_allow_html=True)
 
 # ── Session state ─────────────────────────────────────────────────────────────
+
 defaults = {
     "messages": [], "rag_kb": None, "rag_chain": None,
     "gemini_client": None, "gemini_history": [],
