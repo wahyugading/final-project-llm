@@ -220,27 +220,53 @@ with st.sidebar:
 
     if nav == "Pengaturan":
         st.markdown("**🔑 Gemini API Key**")
-        # Cek apakah key sudah terkonfigurasi via secrets/env
-        _key_from_server = get_api_key()
-        if _key_from_server:
+
+        # Cek apakah key sudah ada dari server (Streamlit Secrets / env)
+        _server_key = ""
+        try:
+            _server_key = st.secrets.get("GEMINI_API_KEY", "")
+        except Exception:
+            pass
+        if not _server_key:
+            _server_key = os.environ.get("GEMINI_API_KEY", "")
+
+        if _server_key:
+            # Key sudah ada dari server — tampilkan status, tidak perlu input
             st.markdown(
                 '<div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);'
-                'border-radius:8px;padding:10px 14px;font-size:13px;color:#10B981;">'
-                '✅ API Key sudah terkonfigurasi via Streamlit Secrets / Environment Variable'
+                'border-radius:8px;padding:10px 14px;font-size:13px;color:#10B981;margin-bottom:8px;">'
+                '✅ API Key dikonfigurasi oleh admin (server-side)'
                 '</div>', unsafe_allow_html=True
             )
         else:
-            # Hanya tampilkan input jika key BELUM ada di server (dev lokal)
-            st.caption("⚠️ Untuk production, set key di Streamlit Secrets. Input ini hanya untuk dev lokal.")
+            # Tidak ada server key — user memasukkan sendiri (per sesi)
+            st.caption("🔑 Masukkan Gemini API Key Anda. Key hanya tersimpan selama sesi ini dan tidak dikirim ke mana pun.")
+
+            # Tampilkan status jika sudah diisi
+            _current_key = st.session_state.get("_manual_api_key", "")
+            if _current_key:
+                masked = _current_key[:8] + "•" * 20
+                st.markdown(
+                    f'<div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);'
+                    f'border-radius:8px;padding:8px 12px;font-size:12px;color:#10B981;margin-bottom:6px;">'
+                    f'✅ Key aktif: <code style="color:#34D399">{masked}</code></div>',
+                    unsafe_allow_html=True
+                )
+
             manual_key = st.text_input(
-                "API Key (dev lokal)",
+                "API Key",
                 type="password",
-                placeholder="AIza...",
+                placeholder="Masukkan Gemini API Key Anda (AIza...)",
                 label_visibility="collapsed",
-                help="Masukkan API key hanya untuk testing lokal. Jangan gunakan di production."
             )
-            if manual_key:
-                st.session_state["_manual_api_key"] = manual_key
+            if st.button("💾 Simpan API Key", use_container_width=True):
+                if manual_key.strip():
+                    st.session_state["_manual_api_key"] = manual_key.strip()
+                    st.success("✅ API Key berhasil disimpan untuk sesi ini!")
+                    st.rerun()
+                else:
+                    st.warning("API Key tidak boleh kosong.")
+            st.caption("🔗 Dapatkan API Key gratis di: [aistudio.google.com](https://aistudio.google.com)")
         st.markdown("**⚙️ Mode AI**")
         mode = st.radio("Mode", ["🔍 RAG (Knowledge Base)", "🤖 Agent (Function Calling)"],
                         label_visibility="collapsed")
@@ -367,6 +393,25 @@ with st.sidebar:
 # Ambil API key secara aman — server-side only, tidak dikirim ke browser
 api_key = get_api_key()
 
+# Banner jika API key belum dikonfigurasi
+if not api_key:
+    st.markdown("""
+    <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.4);
+    border-radius:12px;padding:16px 20px;margin-bottom:16px;">
+        <div style="font-size:15px;font-weight:600;color:#F59E0B;margin-bottom:6px;">
+            ⚠️ API Key Belum Dikonfigurasi
+        </div>
+        <div style="font-size:13px;color:#94A3B8;line-height:1.6;">
+            Untuk menggunakan NusaArtha AI, Anda perlu memasukkan <b>Gemini API Key</b> terlebih dahulu.<br>
+            1. Buka menu <b>⚙️ Pengaturan</b> di sidebar kiri<br>
+            2. Masukkan API Key Anda dan klik <b>💾 Simpan API Key</b><br>
+            3. Dapatkan API Key gratis di 
+            <a href="https://aistudio.google.com" target="_blank" 
+               style="color:#10B981;">aistudio.google.com</a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 # ── MAIN AREA ─────────────────────────────────────────────────────────────────
 now = datetime.now()
 hour = now.hour
@@ -462,7 +507,7 @@ query = user_input or pending
 
 if query:
     if not api_key:
-        st.error("⚠️ Masukkan Gemini API Key di menu **Pengaturan**.")
+        st.error("⚠️ Masukkan Gemini API Key terlebih dahulu di menu **⚙️ Pengaturan** di sidebar.")
         st.stop()
 
     st.session_state.messages.append({"role": "user", "content": query})
