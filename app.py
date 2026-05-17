@@ -371,12 +371,15 @@ for msg in st.session_state.messages:
         content = msg["content"].replace("\n", "<br>")
         sources_html = ""
         if msg.get("sources"):
-            src_items = "".join(
-                f'<div class="src-box">📄 <b>{s["source"]}</b>'
-                f'{f" — Hal. {s[\"page\"]+1}" if s.get("page") != "" else ""}'
-                f'<br><span style="color:#CBD5E1">{s["preview"]}</span></div>'
-                for s in msg["sources"]
-            )
+            src_parts = []
+            for s in msg["sources"]:
+                page_val = s.get("page", "")
+                page_txt = f" — Hal. {page_val + 1}" if page_val != "" else ""
+                src_parts.append(
+                    f'<div class="src-box">📄 <b>{s["source"]}</b>{page_txt}'
+                    f'<br><span style="color:#CBD5E1">{s["preview"]}</span></div>'
+                )
+            src_items = "".join(src_parts)
             sources_html = f"""
             <details style="margin-top:10px;cursor:pointer;">
                 <summary style="color:#F59E0B;font-size:12px;font-weight:600;">
