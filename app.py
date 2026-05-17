@@ -1,396 +1,443 @@
-# app.py — Finance Copilot: Personal Finance AI Assistant
-# Menggabungkan: RAG (ChromaDB + Gemini) + Function Calling + Streamlit UI
-
+# app.py — NusaArtha AI: Personal Finance AI Copilot
 import os
+import base64
 import streamlit as st
 from pathlib import Path
+from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# ── Page config ──────────────────────────────────────────────────────────────
+# ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Finance Copilot — Asisten Keuangan AI",
-    page_icon="💰",
+    page_title="NusaArtha AI — Asisten Keuangan Personal",
+    page_icon="images/logo.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# ── CSS premium (dark glassmorphism) ─────────────────────────────────────────
+# ── Helper: encode image to base64 ───────────────────────────────────────────
+def img_to_b64(path: str) -> str:
+    try:
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except:
+        return ""
+
+LOGO_B64 = img_to_b64("images/logo.png")
+
+# ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Base */
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 .stApp { background: #0F172A; color: #E2E8F0; }
+#MainMenu, footer, header { visibility: hidden; }
 
 /* Sidebar */
 [data-testid="stSidebar"] {
-    background: rgba(15,23,42,0.95);
+    background: #111827 !important;
     border-right: 1px solid rgba(255,255,255,0.06);
+    width: 260px !important;
 }
+[data-testid="stSidebar"] > div { padding: 0 !important; }
 
-/* Hide default streamlit header */
-#MainMenu, footer, header { visibility: hidden; }
+/* Nav items */
+.nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 20px; border-radius: 10px;
+    color: #94A3B8; font-size: 15px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; margin: 2px 12px;
+}
+.nav-item:hover { background: rgba(16,185,129,0.1); color: #E2E8F0; }
+.nav-item.active { background: rgba(16,185,129,0.15); color: #10B981;
+    border-left: 3px solid #10B981; }
 
-/* Chat messages */
-.user-bubble {
-    background: rgba(16,185,129,0.12);
-    border: 1px solid rgba(16,185,129,0.3);
-    border-radius: 18px 18px 4px 18px;
-    padding: 14px 18px; margin: 8px 0;
-    margin-left: 20%; color: #E2E8F0;
+/* Chat bubbles */
+.ai-row { display:flex; align-items:flex-start; gap:12px; margin:16px 0; }
+.ai-avatar {
+    width:36px; height:36px; border-radius:50%;
+    background: linear-gradient(135deg,#10B981,#059669);
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; flex-shrink:0;
 }
 .ai-bubble {
-    background: rgba(30,41,59,0.9);
-    border-left: 3px solid #10B981;
-    border-radius: 4px 18px 18px 18px;
-    padding: 14px 18px; margin: 8px 0;
-    margin-right: 20%; color: #E2E8F0;
+    background: #1E293B; border-left: 3px solid #10B981;
+    border-radius: 4px 16px 16px 16px;
+    padding: 14px 18px; color: #E2E8F0;
+    max-width: calc(100% - 60px); line-height: 1.6;
 }
-.ai-bubble strong { color: #10B981; }
+.user-bubble {
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 16px 4px 16px 16px;
+    padding: 12px 18px; color: #E2E8F0;
+    margin-left: auto; max-width: 70%; line-height: 1.6;
+}
+.user-row { display:flex; justify-content:flex-end; margin:16px 0; }
 
-/* Cards */
-.metric-card {
-    background: rgba(30,41,59,0.8);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px; padding: 16px;
-    margin: 6px 0;
+/* Metric cards */
+.mcard {
+    background: #1E293B; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 12px 16px; margin: 6px 12px;
 }
-.metric-card .label { color:#94A3B8; font-size:12px; font-weight:600; text-transform:uppercase; }
-.metric-card .value { color:#E2E8F0; font-size:22px; font-weight:700; margin-top:4px; }
-.metric-card .trend-up { color:#10B981; font-size:12px; }
-.metric-card .trend-down { color:#F87171; font-size:12px; }
+.mcard .lbl { color:#64748B; font-size:11px; font-weight:600; text-transform:uppercase; }
+.mcard .val { color:#F8FAFC; font-size:20px; font-weight:700; margin:2px 0; }
+.mcard .up  { color:#10B981; font-size:11px; }
+.mcard .dn  { color:#F87171; font-size:11px; }
+
+/* Saham grid */
+.saham-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin:0 12px; }
+.saham-card {
+    background:#1E293B; border-radius:8px; padding:10px 12px;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.saham-card .ticker { color:#E2E8F0; font-size:13px; font-weight:600; }
+.saham-card .chg-up { color:#10B981; font-size:11px; }
+.saham-card .chg-dn { color:#F87171; font-size:11px; }
 
 /* Quick chips */
+.chip-row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
 .chip {
-    display:inline-block; background:rgba(16,185,129,0.1);
-    border:1px solid rgba(16,185,129,0.4); border-radius:20px;
-    padding:6px 14px; margin:3px; font-size:13px; cursor:pointer;
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 20px; padding: 7px 16px;
+    font-size: 13px; color: #10B981; cursor: pointer;
 }
 
-/* Source expander */
-.source-item {
-    background:rgba(15,23,42,0.6); border-radius:8px;
-    padding:10px; margin:4px 0; border-left:2px solid #F59E0B;
-    font-size:13px; color:#94A3B8;
+/* Source box */
+.src-box {
+    background: rgba(15,23,42,0.8); border-left:2px solid #F59E0B;
+    border-radius:8px; padding:10px 14px; margin:4px 0;
+    font-size:12px; color:#94A3B8;
 }
 
 /* Buttons */
 .stButton > button {
-    background: linear-gradient(135deg,#10B981,#059669);
-    color:white; border:none; border-radius:10px;
-    font-weight:600; padding:10px 20px;
-    transition: all 0.2s;
+    background: linear-gradient(135deg,#10B981,#059669) !important;
+    color:white !important; border:none !important;
+    border-radius:10px !important; font-weight:600 !important;
+    transition: all 0.2s !important;
 }
-.stButton > button:hover { transform:translateY(-1px); box-shadow:0 4px 15px rgba(16,185,129,0.4); }
+.stButton > button:hover { transform:translateY(-1px) !important;
+    box-shadow:0 4px 15px rgba(16,185,129,0.4) !important; }
 
 /* Inputs */
 .stTextInput > div > div > input,
 .stTextArea > div > div > textarea {
-    background: rgba(30,41,59,0.8) !important;
+    background: #1E293B !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 10px !important; color: #E2E8F0 !important;
 }
-.stSelectbox > div { background: rgba(30,41,59,0.8) !important; }
+.stRadio > div { gap: 4px !important; }
+label[data-baseweb="radio"] { color: #94A3B8 !important; }
 
 /* Divider */
-.divider { border-top: 1px solid rgba(255,255,255,0.06); margin: 16px 0; }
+.div { border-top:1px solid rgba(255,255,255,0.06); margin:12px 0; }
+
+/* User profile */
+.profile {
+    display:flex; align-items:center; gap:10px;
+    padding: 12px 20px; margin-top:8px;
+}
+.avatar {
+    width:38px; height:38px; border-radius:50%;
+    background: linear-gradient(135deg,#6366F1,#8B5CF6);
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; font-weight:700; color:white;
+}
+.disclaimer-badge {
+    background: rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3);
+    color:#F59E0B; padding:4px 12px; border-radius:20px;
+    font-size:11px; font-weight:600;
+}
 </style>
 """, unsafe_allow_html=True)
 
-
-# ── Session state init ────────────────────────────────────────────────────────
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-if "rag_db" not in st.session_state:
-    st.session_state.rag_db = None
-if "rag_chain" not in st.session_state:
-    st.session_state.rag_chain = None
-if "retriever" not in st.session_state:
-    st.session_state.retriever = None
-if "gemini_client" not in st.session_state:
-    st.session_state.gemini_client = None
-if "gemini_history" not in st.session_state:
-    st.session_state.gemini_history = []
-if "mode" not in st.session_state:
-    st.session_state.mode = "rag"  # "rag" atau "agent"
-if "db_loaded" not in st.session_state:
-    st.session_state.db_loaded = False
-if "uploaded_files" not in st.session_state:
-    st.session_state.uploaded_files = []
-
+# ── Session state ─────────────────────────────────────────────────────────────
+defaults = {
+    "messages": [], "rag_db": None, "rag_chain": None,
+    "retriever": None, "gemini_client": None, "gemini_history": [],
+    "mode": "rag", "db_loaded": False, "uploaded_files": [],
+    "active_nav": "Chat", "pending_prompt": "",
+}
+for k, v in defaults.items():
+    if k not in st.session_state:
+        st.session_state[k] = v
 
 # ── SIDEBAR ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    # Logo + Title
-    st.markdown("""
-    <div style="text-align:center;padding:20px 0 10px;">
-        <div style="font-size:48px;">💰</div>
-        <div style="font-size:20px;font-weight:700;color:#10B981;">Finance Copilot</div>
-        <div style="font-size:12px;color:#64748B;">Asisten Keuangan AI Pribadi</div>
+    # Logo + Brand
+    logo_html = f'<img src="data:image/png;base64,{LOGO_B64}" width="40" style="border-radius:8px;">' if LOGO_B64 else "💰"
+    st.markdown(f"""
+    <div style="display:flex;align-items:center;gap:12px;padding:20px 20px 16px;">
+        {logo_html}
+        <div>
+            <div style="font-size:17px;font-weight:700;color:#10B981;">NusaArtha AI</div>
+            <div style="font-size:11px;color:#64748B;">Asisten Keuangan AI</div>
+        </div>
     </div>
-    <div class="divider"></div>
+    <div class="div"></div>
     """, unsafe_allow_html=True)
 
-    # API Key
-    st.markdown("**🔑 Konfigurasi**")
-    api_key = st.text_input(
-        "Google Gemini API Key",
-        value=os.getenv("GEMINI_API_KEY", ""),
-        type="password",
-        placeholder="AIza...",
-        help="Dapatkan di: aistudio.google.com",
-    )
+    # Navigasi
+    nav_items = [
+        ("Chat", "💬", "Chat"),
+        ("Upload Dokumen", "📎", "Upload Dokumen"),
+        ("Riwayat", "🕐", "Riwayat"),
+        ("Pengaturan", "⚙️", "Pengaturan"),
+    ]
+    for key, icon, label in nav_items:
+        active_cls = "active" if st.session_state.active_nav == key else ""
+        if st.button(f"{icon}  {label}", key=f"nav_{key}", use_container_width=True):
+            st.session_state.active_nav = key
+            st.rerun()
 
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="div"></div>', unsafe_allow_html=True)
 
-    # Mode selector
-    st.markdown("**⚙️ Mode AI**")
-    mode = st.radio(
-        "Pilih mode:",
-        ["🔍 RAG (Knowledge Base)", "🤖 Agent (Function Calling)"],
-        label_visibility="collapsed",
-    )
-    st.session_state.mode = "rag" if "RAG" in mode else "agent"
+    # ── Konten berdasarkan navigasi aktif ─────────────────────────────────────
+    nav = st.session_state.active_nav
 
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+    if nav == "Pengaturan":
+        st.markdown("**🔑 Gemini API Key**")
+        api_key = st.text_input("API Key", value=os.getenv("GEMINI_API_KEY",""),
+                                type="password", placeholder="AIza...", label_visibility="collapsed")
+        st.markdown("**⚙️ Mode AI**")
+        mode = st.radio("Mode", ["🔍 RAG (Knowledge Base)", "🤖 Agent (Function Calling)"],
+                        label_visibility="collapsed")
+        st.session_state.mode = "rag" if "RAG" in mode else "agent"
 
-    # Load Knowledge Base
-    st.markdown("**📚 Knowledge Base**")
-    col1, col2 = st.columns(2)
-    with col1:
-        load_btn = st.button("▶ Muat KB", use_container_width=True)
-    with col2:
-        rebuild_btn = st.button("🔄 Rebuild", use_container_width=True)
+        st.markdown('<div class="div"></div>', unsafe_allow_html=True)
+        st.markdown("**📚 Knowledge Base**")
+        c1, c2 = st.columns(2)
+        load_btn = c1.button("▶ Muat KB", use_container_width=True)
+        rebuild_btn = c2.button("🔄 Rebuild", use_container_width=True)
 
-    if (load_btn or rebuild_btn) and api_key:
-        try:
-            from rag_engine import build_vector_db, build_rag_chain
-            force = rebuild_btn
-            with st.spinner("Memuat knowledge base..."):
-                db = build_vector_db(api_key, force_rebuild=force)
-            if db:
-                rag_chain, retriever = build_rag_chain(api_key, db)
-                st.session_state.rag_db = db
-                st.session_state.rag_chain = rag_chain
-                st.session_state.retriever = retriever
-                st.session_state.db_loaded = True
-                st.success("✅ Knowledge base siap!")
-        except Exception as e:
-            st.error(f"Error: {e}")
-    elif (load_btn or rebuild_btn) and not api_key:
-        st.warning("Masukkan API key terlebih dahulu.")
-
-    # Status indicator
-    if st.session_state.db_loaded:
-        st.markdown('<div style="color:#10B981;font-size:13px;">● Knowledge base aktif</div>', unsafe_allow_html=True)
-    else:
-        st.markdown('<div style="color:#F59E0B;font-size:13px;">○ Knowledge base belum dimuat</div>', unsafe_allow_html=True)
-
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-
-    # Upload dokumen
-    st.markdown("**📎 Upload Dokumen Keuangan**")
-    uploaded = st.file_uploader(
-        "Upload PDF (laporan, rekening, dll)",
-        type=["pdf"],
-        accept_multiple_files=True,
-        label_visibility="collapsed",
-    )
-    if uploaded and api_key and st.button("📥 Index Dokumen", use_container_width=True):
-        from rag_engine import index_uploaded_file
-        for uf in uploaded:
-            with st.spinner(f"Indexing {uf.name}..."):
+        if (load_btn or rebuild_btn):
+            api_key_val = os.getenv("GEMINI_API_KEY", api_key)
+            if api_key_val:
                 try:
-                    n_chunks, n_pages = index_uploaded_file(uf.read(), uf.name, api_key)
-                    st.success(f"✅ {uf.name}: {n_pages} hal, {n_chunks} chunks")
-                    if uf.name not in st.session_state.uploaded_files:
-                        st.session_state.uploaded_files.append(uf.name)
+                    from rag_engine import build_vector_db, build_rag_chain
+                    db = build_vector_db(api_key_val, force_rebuild=rebuild_btn)
+                    if db:
+                        rag_chain, retriever = build_rag_chain(api_key_val, db)
+                        st.session_state.rag_db = db
+                        st.session_state.rag_chain = rag_chain
+                        st.session_state.retriever = retriever
+                        st.session_state.db_loaded = True
+                        st.success("✅ Knowledge base siap!")
                 except Exception as e:
-                    st.error(f"Gagal: {e}")
+                    st.error(f"Error: {e}")
+            else:
+                st.warning("Masukkan API Key dulu.")
 
-    if st.session_state.uploaded_files:
-        st.markdown("**File terindex:**")
-        for f in st.session_state.uploaded_files:
-            st.markdown(f'<div style="font-size:12px;color:#94A3B8;">📄 {f}</div>', unsafe_allow_html=True)
+    elif nav == "Upload Dokumen":
+        st.markdown("**📎 Upload Dokumen PDF**")
+        uploaded = st.file_uploader("Upload PDF", type=["pdf"],
+                                    accept_multiple_files=True, label_visibility="collapsed")
+        api_key_env = os.getenv("GEMINI_API_KEY", "")
+        if uploaded and st.button("📥 Index Dokumen", use_container_width=True):
+            if not api_key_env:
+                st.warning("Set GEMINI_API_KEY di Pengaturan.")
+            else:
+                from rag_engine import index_uploaded_file
+                for uf in uploaded:
+                    with st.spinner(f"Indexing {uf.name}..."):
+                        try:
+                            n_chunks, n_pages = index_uploaded_file(uf.read(), uf.name, api_key_env)
+                            st.success(f"✅ {uf.name}: {n_pages} hal, {n_chunks} chunks")
+                            if uf.name not in st.session_state.uploaded_files:
+                                st.session_state.uploaded_files.append(uf.name)
+                        except Exception as e:
+                            st.error(f"Gagal: {e}")
+        if st.session_state.uploaded_files:
+            st.markdown("**File terindex:**")
+            for f in st.session_state.uploaded_files:
+                st.markdown(f'<div style="font-size:12px;color:#94A3B8;padding:4px 0;">📄 {f}</div>',
+                            unsafe_allow_html=True)
 
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+    elif nav == "Riwayat":
+        st.markdown("**🕐 Riwayat Percakapan**")
+        if st.session_state.messages:
+            user_msgs = [m for m in st.session_state.messages if m["role"] == "user"]
+            for i, m in enumerate(user_msgs[-10:], 1):
+                preview = m["content"][:50] + "..." if len(m["content"]) > 50 else m["content"]
+                st.markdown(f'<div style="font-size:12px;color:#94A3B8;padding:6px 0;'
+                            f'border-bottom:1px solid rgba(255,255,255,0.04);">'
+                            f'💬 {preview}</div>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div style="color:#475569;font-size:13px;">Belum ada riwayat.</div>',
+                        unsafe_allow_html=True)
+        if st.button("🗑️ Hapus Semua", use_container_width=True):
+            st.session_state.messages = []
+            st.session_state.gemini_history = []
+            st.rerun()
 
-    # Real-time widgets
-    st.markdown("**📊 Pasar Real-time**")
+    else:  # nav == "Chat" — tampilkan widget pasar
+        # Status KB
+        if st.session_state.db_loaded:
+            st.markdown('<div style="color:#10B981;font-size:12px;padding:0 20px 8px;">● Knowledge base aktif</div>',
+                        unsafe_allow_html=True)
+        else:
+            st.markdown('<div style="color:#F59E0B;font-size:12px;padding:0 20px 8px;">○ KB belum dimuat — buka Pengaturan</div>',
+                        unsafe_allow_html=True)
+
+        # Pasar Real-time
+        st.markdown('<div style="padding:0 20px;font-size:12px;font-weight:600;color:#64748B;text-transform:uppercase;">Pasar Real-time</div>',
+                    unsafe_allow_html=True)
+        st.markdown("""
+        <div class="mcard">
+            <div class="lbl">USD / IDR</div>
+            <div class="val">Rp 15.740</div>
+            <div class="up">↗ +0.2%</div>
+        </div>
+        <div style="padding:8px 12px;font-size:12px;font-weight:600;color:#64748B;text-transform:uppercase;">
+            SAHAM IDX
+        </div>
+        <div class="saham-grid">
+            <div class="saham-card"><div class="ticker">BBCA</div><div class="chg-up">+0.5%</div></div>
+            <div class="saham-card"><div class="ticker">BBRI</div><div class="chg-dn">-0.2%</div></div>
+            <div class="saham-card"><div class="ticker">BMRI</div><div class="chg-up">+0.4%</div></div>
+            <div class="saham-card"><div class="ticker">TLKM</div><div class="chg-dn">-0.3%</div></div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # User profile (selalu di bawah)
+    st.markdown('<div class="div" style="margin-top:auto;"></div>', unsafe_allow_html=True)
     st.markdown("""
-    <div class="metric-card">
-        <div class="label">USD/IDR</div>
-        <div class="value">Rp 15.740</div>
-        <div class="trend-up">▲ +0.20%</div>
+    <div class="profile">
+        <div class="avatar">W</div>
+        <div>
+            <div style="font-size:13px;font-weight:600;color:#E2E8F0;">User Account</div>
+            <div style="font-size:11px;color:#10B981;">Premium Member</div>
+        </div>
     </div>
-    <div class="metric-card">
-        <div class="label">BBCA</div>
-        <div class="value">Rp 9.275</div>
-        <div class="trend-up">▲ +0.82%</div>
-    </div>
-    <div class="metric-card">
-        <div class="label">BBRI</div>
-        <div class="value">Rp 4.210</div>
-        <div class="trend-down">▼ -0.71%</div>
+    <div style="text-align:center;font-size:11px;color:#334155;padding:8px 0 16px;">
+        Powered by Gemini AI ✨
     </div>
     """, unsafe_allow_html=True)
-    st.caption("*Gunakan tool 'Info Saham' untuk data terkini*")
 
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-    st.markdown('<div style="text-align:center;font-size:11px;color:#475569;">Powered by Gemini AI ✨</div>', unsafe_allow_html=True)
-
+# Ambil API key dari env (sudah di-set di Pengaturan atau .env)
+api_key = os.getenv("GEMINI_API_KEY", "")
 
 # ── MAIN AREA ─────────────────────────────────────────────────────────────────
-from datetime import datetime
-
 now = datetime.now()
 hour = now.hour
 greeting = "Selamat Pagi" if hour < 11 else "Selamat Siang" if hour < 15 else "Selamat Sore"
 
-st.markdown(f"""
-<div style="padding:20px 0 10px;">
-    <div style="font-size:28px;font-weight:700;color:#F8FAFC;">{greeting}! 👋</div>
-    <div style="color:#64748B;font-size:14px;">{now.strftime('%A, %d %B %Y')} •
-        <span style="background:rgba(245,158,11,0.15);color:#F59E0B;
-        padding:2px 10px;border-radius:20px;font-size:12px;">
-        ⚠️ Edukasi saja — bukan saran investasi profesional
-        </span>
+# Header
+col_h1, col_h2 = st.columns([3, 1])
+with col_h1:
+    st.markdown(f"""
+    <div style="padding:20px 0 8px;">
+        <div style="font-size:28px;font-weight:700;color:#F8FAFC;">{greeting}! 👋</div>
+        <div style="color:#64748B;font-size:14px;">{now.strftime('%A, %d %B %Y')}</div>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+with col_h2:
+    st.markdown(f"""
+    <div style="padding:20px 0 8px;display:flex;justify-content:flex-end;align-items:center;gap:12px;">
+        <span class="disclaimer-badge">⚠️ Disclaimer: AI Advisor</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-# Quick action chips
-st.markdown("**Aksi Cepat:**")
-cols = st.columns(5)
-quick_actions = [
-    ("💰", "Hitung PPh 21", "Saya bergaji Rp 9 juta/bulan status TK/0, berapa PPh 21 saya?"),
-    ("📈", "Info Saham", "Berapa harga saham BBCA sekarang?"),
-    ("💱", "Kurs Hari Ini", "Berapa kurs USD ke IDR sekarang?"),
-    ("📊", "Tips Investasi", "Apa rekomendasi alokasi portfolio untuk pemula?"),
-    ("🧾", "Pajak Crypto", "Saya jual crypto profit Rp 5 juta, berapa pajaknya?"),
-]
-for i, (icon, label, prompt) in enumerate(quick_actions):
-    with cols[i]:
-        if st.button(f"{icon} {label}", use_container_width=True, key=f"chip_{i}"):
-            st.session_state.pending_prompt = prompt
+st.markdown('<div class="div"></div>', unsafe_allow_html=True)
 
-st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+# ── Chat Area ─────────────────────────────────────────────────────────────────
+LOGO_AVATAR = f'<img src="data:image/png;base64,{LOGO_B64}" width="22" style="border-radius:4px;">' if LOGO_B64 else "🤖"
 
-# ── Chat History ──────────────────────────────────────────────────────────────
-chat_container = st.container()
-
-# Pesan selamat datang jika belum ada history
+# Pesan sambutan
 if not st.session_state.messages:
-    with chat_container:
-        st.markdown("""
+    st.markdown(f"""
+    <div class="ai-row">
+        <div class="ai-avatar">{LOGO_AVATAR}</div>
         <div class="ai-bubble">
-        <strong>Finance Copilot 🤖</strong><br><br>
-        Halo! Saya <b>Finance Copilot</b>, asisten keuangan AI pribadi Anda. Saya dapat membantu:<br><br>
-        💼 <b>Pajak</b> — PPh 21, pajak investasi saham/crypto/reksadana, SPT<br>
-        📈 <b>Investasi</b> — Saham, obligasi, reksadana, crypto<br>
-        💱 <b>Kurs Real-time</b> — Konversi mata uang USD, EUR, dll.<br>
-        📊 <b>Portofolio</b> — Analisis dan strategi alokasi aset<br><br>
-        <i>Muat Knowledge Base di sidebar, lalu mulai bertanya!</i>
+            Halo! Saya <b>NusaArtha AI</b>, asisten keuangan berbasis AI Anda.
+            Ada yang bisa saya bantu hari ini terkait pajak, investasi, atau manajemen anggaran?
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Tampilkan riwayat chat
+for msg in st.session_state.messages:
+    if msg["role"] == "user":
+        st.markdown(f"""
+        <div class="user-row">
+            <div class="user-bubble">{msg["content"]}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        content = msg["content"].replace("\n", "<br>")
+        sources_html = ""
+        if msg.get("sources"):
+            src_items = "".join(
+                f'<div class="src-box">📄 <b>{s["source"]}</b>'
+                f'{f" — Hal. {s[\"page\"]+1}" if s.get("page") != "" else ""}'
+                f'<br><span style="color:#CBD5E1">{s["preview"]}</span></div>'
+                for s in msg["sources"]
+            )
+            sources_html = f"""
+            <details style="margin-top:10px;cursor:pointer;">
+                <summary style="color:#F59E0B;font-size:12px;font-weight:600;">
+                    ⊙ SUMBER DATA & DASAR HUKUM
+                </summary>
+                <div style="margin-top:8px;">{src_items}</div>
+            </details>"""
+        st.markdown(f"""
+        <div class="ai-row">
+            <div class="ai-avatar">{LOGO_AVATAR}</div>
+            <div class="ai-bubble">{content}{sources_html}</div>
         </div>
         """, unsafe_allow_html=True)
 
-# Tampilkan history
-with chat_container:
-    for i, msg in enumerate(st.session_state.messages):
-        if msg["role"] == "user":
-            st.markdown(f'<div class="user-bubble">👤 {msg["content"]}</div>', unsafe_allow_html=True)
-        else:
-            content = msg["content"].replace("\n", "<br>")
-            st.markdown(f'<div class="ai-bubble"><strong>Finance Copilot 🤖</strong><br><br>{content}</div>', unsafe_allow_html=True)
-            # Tampilkan sumber jika ada
-            if "sources" in msg and msg["sources"]:
-                with st.expander(f"📚 {len(msg['sources'])} Sumber Dokumen"):
-                    for src in msg["sources"]:
-                        st.markdown(f"""
-                        <div class="source-item">
-                        📄 <b>{src['source']}</b> {f"(Hal. {src['page']+1})" if src.get('page') != '' else ''}<br>
-                        <span style="color:#CBD5E1">{src['preview']}</span>
-                        </div>
-                        """, unsafe_allow_html=True)
+# ── Quick Action Chips ────────────────────────────────────────────────────────
+st.markdown('<div style="margin:8px 0 4px;"></div>', unsafe_allow_html=True)
+chips = [
+    ("💰 Hitung Pajak", "Saya bergaji Rp 9 juta/bulan status TK/0, berapa PPh 21 saya?"),
+    ("📈 Info Saham", "Berapa harga saham BBCA sekarang?"),
+    ("💱 Kurs Hari Ini", "Berapa kurs USD ke IDR sekarang?"),
+    ("📊 Analisis Portfolio", "Apa rekomendasi alokasi portfolio untuk pemula?"),
+]
+cols = st.columns(len(chips))
+for i, (label, prompt) in enumerate(chips):
+    with cols[i]:
+        if st.button(label, key=f"chip_{i}", use_container_width=True):
+            st.session_state.pending_prompt = prompt
+            st.rerun()
 
 # ── Chat Input ────────────────────────────────────────────────────────────────
-# Cek apakah ada pending prompt dari quick action
-default_val = st.session_state.pop("pending_prompt", "")
-
-user_input = st.chat_input(
-    "Tanya soal pajak, investasi, kurs, portofolio...",
-)
-
-# Proses input (baik dari chat_input maupun dari quick chip)
-query = user_input or default_val
+pending = st.session_state.pop("pending_prompt", "")
+user_input = st.chat_input("Tanya soal pajak, investasi, keuangan...")
+query = user_input or pending
 
 if query:
     if not api_key:
-        st.error("⚠️ Masukkan Gemini API Key di sidebar terlebih dahulu.")
+        st.error("⚠️ Masukkan Gemini API Key di menu **Pengaturan**.")
         st.stop()
 
-    # Tampilkan pesan user
-    st.markdown(f'<div class="user-bubble">👤 {query}</div>', unsafe_allow_html=True)
     st.session_state.messages.append({"role": "user", "content": query})
 
-    mode = st.session_state.mode
-
-    with st.spinner("🤔 Finance Copilot sedang berpikir..."):
+    with st.spinner("NusaArtha AI sedang berpikir..."):
         try:
-            if mode == "rag":
-                # ── Mode RAG ──────────────────────────────
+            if st.session_state.mode == "rag":
                 if not st.session_state.db_loaded:
-                    response_text = (
-                        "⚠️ Knowledge base belum dimuat. "
-                        "Klik tombol **▶ Muat KB** di sidebar terlebih dahulu."
-                    )
+                    resp = "⚠️ Knowledge base belum dimuat. Buka menu **Pengaturan** → klik **▶ Muat KB**."
                     sources = []
                 else:
-                    rag_chain = st.session_state.rag_chain
-                    retriever = st.session_state.retriever
-                    response_text = rag_chain.invoke(query)
+                    resp = st.session_state.rag_chain.invoke(query)
                     from rag_engine import get_source_docs
-                    sources = get_source_docs(retriever, query)
-
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": response_text,
-                    "sources": sources if mode == "rag" else [],
-                })
-
+                    sources = get_source_docs(st.session_state.retriever, query)
+                st.session_state.messages.append({"role": "assistant", "content": resp, "sources": sources})
             else:
-                # ── Mode Agent (Function Calling) ─────────
                 from gemini_agent import create_finance_agent, chat_with_function_calling
                 if st.session_state.gemini_client is None:
                     st.session_state.gemini_client = create_finance_agent(api_key)
-
-                response_text, updated_history = chat_with_function_calling(
-                    client=st.session_state.gemini_client,
-                    user_message=query,
-                    chat_history=st.session_state.gemini_history,
-                )
-                st.session_state.gemini_history = updated_history
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": response_text,
-                    "sources": [],
-                })
-
+                resp, updated = chat_with_function_calling(
+                    st.session_state.gemini_client, query, st.session_state.gemini_history)
+                st.session_state.gemini_history = updated
+                st.session_state.messages.append({"role": "assistant", "content": resp, "sources": []})
         except Exception as e:
-            err_msg = f"Terjadi error: {str(e)}"
-            st.session_state.messages.append({
-                "role": "assistant", "content": err_msg, "sources": []
-            })
+            st.session_state.messages.append({"role": "assistant", "content": f"Error: {e}", "sources": []})
 
     st.rerun()
-
-# ── Bottom controls ───────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-    if st.button("🗑️ Bersihkan Percakapan", use_container_width=True):
-        st.session_state.messages = []
-        st.session_state.gemini_history = []
-        st.rerun()

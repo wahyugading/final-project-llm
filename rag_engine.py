@@ -7,7 +7,7 @@ import streamlit as st
 from pathlib import Path
 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
-from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader, TextFileLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_community.vectorstores import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
@@ -74,7 +74,6 @@ def load_documents():
     txt_files = list(Path(__file__).parent.glob("*.txt"))
     for txt_path in txt_files:
         try:
-            from langchain_community.document_loaders import TextLoader
             loader = TextLoader(str(txt_path), encoding="utf-8")
             pages = loader.load()
             docs.extend(pages)
