@@ -1,271 +1,140 @@
-# Knowledge Base: Personal Finance AI Assistant
+# 💰 NusaArtha AI — Asisten Keuangan Personal AI & RAG
 
-Direktori ini berisi ringkasan dokumen yang akan digunakan sebagai knowledge base untuk RAG (Retrieval-Augmented Generation) chatbot keuangan pribadi kamu.
+> **NusaArtha AI** (Nusantara Harta AI) adalah asisten finansial cerdas yang dirancang khusus untuk memandu pengguna dalam navigasi regulasi perpajakan Indonesia terbaru (PPh 21 TER PMK 168/2023), analisis investasi lokal (Saham IDX, Reksa Dana, Obligasi, Crypto), serta perencanaan keuangan rumah tangga yang adaptif.
 
-## 📁 Struktur Folder
-
-```
-knowledge_base/
-├── pajak/                          # Regulasi pajak & perhitungan PPh
-│   ├── pajak_pph21_ringkasan.txt   # PPh 21, TER, contoh perhitungan
-│   └── regulasi_pajak_ringkasan.txt # Regulasi komprehensif semua instrumen
-├── investasi/                       # Instrumen & cara kerja investasi
-│   └── investasi_ringkasan.txt      # Saham, obligasi, reksadana, crypto
-└── data_personal/                   # Data & template keuangan pribadi
-    └── laporan_keuangan_sample.txt  # Laporan keuangan + portfolio sample
-```
-
-## 📄 Deskripsi File
-
-### 1. **pajak/pajak_pph21_ringkasan.txt** (13 KB)
-Fokus: Pajak Penghasilan Pasal 21 untuk karyawan
-
-**Isi:**
-- Definisi & subjek PPh 21
-- PTKP 2024-2025 berdasarkan status pernikahan
-- Komponen pengurang penghasilan
-- **Skema PROGRESIF vs TER** (skema baru 2024)
-- Tabel TER bulanan dengan bracket penghasilan
-- 3 contoh perhitungan detail (gaji normal, bonus, honor)
-- Tarif Pasal 17 untuk akhir tahun
-- Proses bulanan + akhir tahun
-
-**Gunakan untuk:** Diskusi gaji, bonus, perhitungan pajak bulanan, planning PPh 21
+Aplikasi ini dideploy menggunakan **Streamlit Cloud** dan dapat diakses langsung secara online melalui link berikut:
+🔗 **[nusaartha-ai.streamlit.app](https://nusaartha-ai.streamlit.app/)**
 
 ---
 
-### 2. **pajak/regulasi_pajak_ringkasan.txt** (24 KB)
-Fokus: Regulasi pajak untuk SEMUA instrumen investasi
+## 🧭 1. Visi & Misi Proyek (README)
 
-**Isi:**
-- PPh Final Saham (0,1%) + Dividen (10%)
-- PPh Final Reksadana (10% capital gain + dividen)
-- PPh Final Obligasi (10% kupon + 0,1% capital gain)
-- **PPh Crypto (0,21% per 2025 - BARU!)** ← Penting
-- PPN Jasa Broker 12% (per 2024)
-- PPh Penghasilan Tidak Tetap (honor 10%, komisi 10%)
-- Pelaporan SPT (Masa & Tahunan)
-- Peraturan terbaru Q1-Q2 2025
+Mengelola keuangan pribadi di Indonesia sering kali membingungkan akibat regulasi pajak yang dinamis dan kompleksitas instrumen pasar modal. **NusaArtha AI** hadir sebagai *Copilot* finansial yang menyederhanakan perhitungan pajak, memberikan wawasan investasi yang patuh regulasi OJK/DJP, serta mempermudah akses literasi keuangan berbasis dokumen ringkasan (*Lightweight RAG*).
 
-**Gunakan untuk:** Tanya pajak investasi spesifik, capital gain, dividen, crypto, honor, SPT
+### 🌟 Fitur Utama:
+*   **Lightweight RAG (Knowledge Base)**: Bertanya langsung seputar pajak dan investasi berbasis data teks ringkasan regulasi resmi tanpa membebani performa server.
+*   **Function Calling Agent**: Menghitung PPh 21 TER, kalkulasi pajak aset investasi, cek kurs valuta asing (USD/IDR), serta memantau pergerakan harga saham teratas di BEI secara dinamis menggunakan Gemini 2.5 Flash.
+*   **Premium Glassmorphic UI**: Dashboard bertema gelap modern dengan visualisasi data pasar real-time dan panel riwayat interaktif.
 
 ---
 
-### 3. **investasi/investasi_ringkasan.txt** (24 KB)
-Fokus: Instrumen investasi & cara kerjanya
+## 👥 2. Kontributor & Apresiasi (AUTHORS & THANKS)
 
-**Isi:**
+### ✍️ Penulis & Pengembang Utama
+*   **Wahyugading** — *Lead AI Engineer & Developer* ([GitHub Profile](https://github.com/wahyugading))
 
-#### SAHAM (7 halaman)
-- Definisi & cara kerja
-- Jenis saham (blue chip, mid cap, small cap, syariah)
-- Risiko, biaya transaksi, pajak
-- Cara membeli, settlement
-- Keuntungan & kerugian
-
-#### OBLIGASI (6 halaman)
-- ORI, SR, SBR (Sukuk), SBPU
-- Kupon & pajak (10% final)
-- Obligasi Korporasi (AAA, A, BBB rating)
-- Cara membeli, settlement
-- Keuntungan: stabil; Kerugian: return rendah
-
-#### REKSADANA (8 halaman)
-- 5 jenis: Pasar uang, pendapatan tetap, campuran, saham, syariah
-- NAB (Nilai Aktiva Bersih), UP (Unit Penyertaan)
-- Management fee, pajak (10%)
-- SIP (Systematic Investment Plan)
-- Risk profiling: konservatif → agresif
-
-#### CRYPTO (6 halaman)
-- Blockchain, wallet, public/private key
-- Regulasi POJK 27/2024
-- **Pajak 0,21% per PMK 50/2025** ← Baru
-- Platform OJK licensed (Pintu, Indodax, dll)
-- Risk SANGAT TINGGI, volatilitas ekstrem
-- ⚠️ Bukan alat pembayaran sah di Indonesia
-
-#### PERBANDINGAN & TIPS
-- Tabel return vs risiko
-- Alokasi portfolio berdasarkan umur/profil
-- Diversifikasi & rebalancing
-- 10 tips investasi sehat
-
-**Gunakan untuk:** Tanya instrumen apa itu? Cara kerja? Risiko? Pajak? Pilihan saham vs obligasi? Reksadana mana yang bagus?
+### 🤝 Terima Kasih Kepada
+*   **Google DeepMind Team** & program **Maju Bareng AI 26** atas bimbingan teknologi Generative AI & Streamlit.
+*   **Direktorat Jenderal Pajak (DJP)** & **Otoritas Jasa Keuangan (OJK)** atas dokumen regulasi publik yang menjadi basis pengetahuan sistem ini.
 
 ---
 
-### 4. **data_personal/laporan_keuangan_sample.txt** (14 KB)
-Fokus: Template & contoh laporan keuangan pribadi
+## ⚙️ 3. Panduan Instalasi & Persyaratan (INSTALL)
 
-**Isi:**
+Ikuti langkah-langkah di bawah ini untuk menjalankan NusaArtha AI di komputer lokal Anda.
 
-#### LAPORAN BULANAN (Januari, Februari, Maret 2025)
-- Penghasilan bruto + tunjangan
-- PPh 21 (TER) bulanan
-- Pengeluaran tetap & variabel
-- Investasi & tabungan
-- Sisa/surplus
-- Keterangan khusus
+### 📋 Prasyarat Sistem
+*   Python 3.10 - 3.12
+*   Git
+*   Gemini API Key (Dapatkan gratis di [Google AI Studio](https://aistudio.google.com))
 
-#### PORTFOLIO SNAPSHOT (per Maret 2025)
-- Reksadana Saham Bibit: ~Rp 2 juta
-- Saham lokal (BBCA, BBRI): ~Rp 1,4 juta
-- Obligasi ORI: Rp 5 juta
-- Tabungan darurat: Rp 14 juta
-- Total asset: Rp 22,9 juta
+### 🛠️ Langkah Pemasangan Lokal
 
-#### SUMMARY & INSIGHTS
-- Total penghasilan Q1: Rp 30,5 juta
-- Ratio spending: 63% (sehat)
-- Tax paid: Rp 2,1 juta (effective rate 2,1%)
-- Goals Q2 2025
+1.  **Clone Repositori**:
+    ```bash
+    git clone https://github.com/wahyugading/final-project-llm.git
+    cd final-project-llm
+    ```
 
-**Gunakan untuk:** 
-- Upload dokumen kamu & bandingkan
-- Tanya soal pengeluaran, alokasi asset
-- Planning investasi bulanan
-- Tax planning
+2.  **Buat & Aktifkan Virtual Environment**:
+    ```bash
+    python -m venv venv
+    # Di Windows (PowerShell):
+    .\venv\Scripts\Activate.ps1
+    # Di Linux/macOS:
+    source venv/bin/activate
+    ```
 
----
+3.  **Instal Dependensi**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-## 🔍 Cara Menggunakan Knowledge Base
+4.  **Konfigurasi API Key**:
+    *   Buat file `.env` di direktori utama proyek (pastikan file ini masuk ke `.gitignore` Anda):
+        ```env
+        GEMINI_API_KEY=AIzaSyD-xxxxxx...
+        ```
+    *   *Alternatif (Streamlit Cloud)*: Tambahkan kunci Anda langsung di panel **⚙️ Pengaturan** saat aplikasi berjalan untuk isolasi keamanan per sesi browser.
 
-### Scenario 1: Tanya Pajak Gaji
-**Kamu:** "Gaji saya Rp 9 juta/bulan, berapa PPh 21 yang dipotong?"
-**Chatbot akan:** 
-1. Retrieve dari `pajak_pph21_ringkasan.txt` (TER 5%)
-2. Hitung: Rp 9 juta × 5% = Rp 450.000
-3. Berikan penjelasan + contoh
-
-### Scenario 2: Tanya Pajak Saham
-**Kamu:** "Saya jual saham untung Rp 500.000, berapa pajaknya?"
-**Chatbot akan:**
-1. Retrieve dari `regulasi_pajak_ringkasan.txt` (PPh Final 0,1%)
-2. Hitung: Rp 500.000 × 0,1% = Rp 500
-3. Jelaskan sudah final, tidak perlu lapor SPT
-
-### Scenario 3: Perbandingan Instrumen
-**Kamu:** "Lebih bagus saham atau reksadana?"
-**Chatbot akan:**
-1. Retrieve dari `investasi_ringkasan.txt`
-2. Compare return, risiko, volatilitas, pajak
-3. Berikan rekomendasi berdasarkan profil kamu
-
-### Scenario 4: Analisis Portfolio Kamu
-**Kamu:** "Saya upload laporan keuangan, bagaimana dengan alokasi saya?"
-**Chatbot akan:**
-1. Retrieve `laporan_keuangan_sample.txt` (sebagai benchmark)
-2. Analisis portfolio kamu
-3. Bandingkan, beri rekomendasi
-
-### Scenario 5: Planning & Strategy
-**Kamu:** "Saya dapat bonus Rp 2 juta, bagaimana mengalokasikannya?"
-**Chatbot akan:**
-1. Retrieve allocation strategy dari `investasi_ringkasan.txt`
-2. Retrieve tax implication dari `regulasi_pajak_ringkasan.txt`
-3. Beri saran investasi, pajak, alokasi
+5.  **Jalankan Aplikasi**:
+    ```bash
+    streamlit run app.py
+    ```
 
 ---
 
-## 📊 Data Coverage
+## 🔄 4. Catatan Rilis & Pembaruan (CHANGELOG & NEWS)
 
-| Topik | Covered | Level |
-|-------|---------|-------|
-| **PPh 21** | ✅ | Comprehensive (TER, progresif, contoh) |
-| **Saham** | ✅ | Comprehensive (cara, risiko, pajak, biaya) |
-| **Obligasi** | ✅ | Comprehensive (ORI, obligasi korporat, kupon) |
-| **Reksadana** | ✅ | Comprehensive (5 jenis, NAB, fee, SIP) |
-| **Crypto** | ✅ | Comprehensive (blockchain, OJK, pajak baru) |
-| **Dividen Tax** | ✅ | Good (10%, mechanism) |
-| **Capital Gain** | ✅ | Good (tarif, contoh, final) |
-| **PPN Broker** | ✅ | Good (12% per 2024) |
-| **SPT** | ✅ | Good (jenis, cara isi, lampiran) |
-| **Data Personal** | ✅ | Sample (template, portfolio) |
-| **Crypto Pajak** | ✅ | Good (0,21% baru 2025) |
-| **ETF & Derivatif** | ⚠️ | Minimal (belum jadi regulasi) |
+### 📢 Berita Terbaru (NEWS - Untuk Pengguna)
+*   **Mei 2026**: Rilis NusaArtha AI v2.0! Antarmuka baru menggunakan navigasi Sidebar Glassmorphism, integrasi RAG super cepat berbasis dokumen teks, dan fitur hapus riwayat chat instan.
 
----
-
-## ⚙️ Cara Setup RAG untuk Chatbot
-
-### Tools & Library:
-```python
-# Chunking & Embeddings
-from langchain.document_loaders import DirectoryLoader, TextLoader
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings.openai import OpenAIEmbeddings  # or local embedding
-
-# Vector Database
-from langchain.vectorstores import Chroma  # atau Faiss, Qdrant
-
-# LLM & RAG Chain
-from langchain.llms import OpenAI  # atau Llama via Groq
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+### 🛠️ Log Perubahan Teknis (CHANGELOG - Untuk Developer)
+```diff
+v2.0.0 (2026-05-17)
++ Mengubah sistem RAG dari ChromaDB (Vector Store berat) ke Lightweight RAG berbasis In-Memory Keyword scoring.
++ Menambahkan form input API Key manual dengan perlindungan session state agar tidak ada kebocoran kunci di browser frontend.
++ Memperbaiki error "TextFileLoader not found" dengan beralih ke native Langchain TextLoader.
++ Restrukturisasi total file app.py untuk menyelaraskan sidebar dengan referensi tata letak layout.png.
+- Menghapus dependensi berat seperti chromadb dan pysqlite3-binary untuk menjamin stabilitas Streamlit Cloud.
 ```
 
-### Setup Steps:
-1. **Load documents** dari `/knowledge_base/` folder
-2. **Split text** menjadi chunks (~500 chars per chunk)
-3. **Create embeddings** & index ke vector DB
-4. **Setup RAG chain** dengan prompt template
-5. **Integrate dengan Streamlit UI** (Sesi 3 materi)
+---
+
+## 🐛 5. Penanganan Masalah & Laporan Bug (BUG)
+
+### 🚨 Masalah yang Sering Ditemui (Troubleshooting)
+
+*   **Error: "403 API key was reported as leaked"**
+    *   *Solusi*: Google mendeteksi API Key Anda terpublikasi di repositori publik GitHub. Buka Google AI Studio, hapus key yang bocor, buat key baru, dan pastikan file `.env` dimasukkan ke dalam `.gitignore` sebelum melakukan git push.
+*   **Error: "400 API key expired"**
+    *   *Solusi*: Masa aktif key Anda telah habis atau dinonaktifkan. Silakan perbarui key Anda di Google AI Studio dan simpan kembali di menu Pengaturan aplikasi.
+*   **Knowledge Base Belum Terbaca**
+    *   *Solusi*: Saat pertama kali membuka mode RAG, buka menu **⚙️ Pengaturan** dan klik tombol **▶ Muat KB** untuk mengindeks ringkasan dokumen keuangan ke memori.
+
+### 📬 Cara Melaporkan Bug
+Jika Anda menemukan kendala teknis lainnya, buat Issue di repositori dengan format:
+1. Deskripsi masalah yang dihadapi.
+2. Langkah-langkah untuk mereproduksi error.
+3. Screenshot konsol terminal / tampilan error di layar.
 
 ---
 
-## 🔄 Update & Maintenance
+## 🙋‍♂️ 6. Pertanyaan Umum (FAQ)
 
-### Update Kapan:
-- ✅ Ada regulasi pajak baru
-- ✅ OJK/DJP keluar peraturan baru
-- ✅ PMK/PP ada perubahan
-- ✅ Data sampel portfolio perlu refresh
+**Q: Apakah data API Key saya aman saat dimasukkan ke dashboard online?**  
+*A: Ya. Jika Anda menggunakan input manual di panel Pengaturan, key hanya disimpan di `st.session_state` memori server Streamlit selama sesi browser Anda aktif. Kunci tidak akan disimpan di database atau diekspos ke publik.*
 
-### Cara Update:
-1. Edit `.txt` file yang relevan
-2. Re-load documents ke vector DB
-3. Re-index (Chroma akan otomatis)
-4. Test dengan beberapa query
+**Q: Dari mana sumber kalkulator PPh 21 yang digunakan?**  
+*A: Kalkulator PPh 21 menggunakan basis tarif efektif rata-rata (TER) yang sesuai dengan Peraturan Menteri Keuangan Nomor 168 Tahun 2023 (PMK 168/2023) yang berlaku di Indonesia.*
+
+**Q: Mengapa sistem tidak lagi menggunakan database ChromaDB?**  
+*A: Streamlit Cloud memiliki batasan memori dan penyimpanan sementara. Pendekatan in-memory Lightweight RAG yang kami terapkan di v2.0 menjamin startup aplikasi instan dan stabilitas tinggi bebas dari error library SQLite lokal.*
 
 ---
 
-## 📝 Catatan Penting
+## 📝 7. Rencana Tugas Mendatang (TODO)
 
-1. **Akurasi:** Ringkasan ini akurat per Mei 2026. Peraturan pajak sering berubah—selalu cross-check dengan sumber resmi (pajak.go.id, ojk.go.id).
-
-2. **Disclaimers di Chatbot:**
-   - "Saya AI assistant, bukan konsultan pajak"
-   - "Untuk kasus spesifik, konsultasi dengan tax professional"
-   - "Ringkasan ini untuk edukasi, bukan legal advice"
-
-3. **Halusinasi Risk:**
-   - Set temperature RENDAH (0.2-0.3) agar jawaban akurat soal angka/pajak
-   - Jangan allow hallucination untuk perhitungan kuantitatif
-   - Always cite sumber dokumen saat jawab
-
-4. **Data Privacy:**
-   - Tidak ada data pribadi real di sini (semua sample/template)
-   - Nanti saat user upload dokumen mereka → encrypt & handle sensitif
-   - Jangan store personal data di vector DB selamanya
+- [ ] Integrasi grafik pergerakan harga saham live (menggunakan library `yfinance`).
+- [ ] Menambahkan fitur ekspor laporan simulasi PPh 21 ke file PDF/Excel.
+- [ ] Menambahkan support dokumen berformat `.docx` dan `.xlsx` di menu Upload Dokumen.
+- [ ] Implementasi sistem deteksi status wajib pajak otomatis berbasis NPWP/NIK.
 
 ---
 
-## 📞 Contact & Support
+## ⚖️ 8. Lisensi & Distribusi (LICENSE)
 
-**Sumber Resmi:**
-- DJP: www.pajak.go.id / Aplikasi Cek Pajak
-- OJK: www.ojk.go.id / www.sikapiuangmu.ojk.go.id
-- Kemenkeu: www.kemenkeu.go.id
-
-**Tax Consultant:**
-- Kantor pajak terdekat (KPP)
-- Akuntan publik / Tax consultant registered
-- Konsultasi gratis di kantor pajak
+Proyek ini dilisensikan di bawah **MIT License**. Anda bebas menggunakan, memodifikasi, dan mendistribusikan kode ini untuk tujuan komersial maupun non-komersial dengan tetap mencantumkan kredit penulis asli.
 
 ---
-
-**Knowledge Base ready! 🎉**
-
-Next step: Setup LangChain + Groq LLM + Streamlit untuk demo chatbot.
-
+*NusaArtha AI — Kelola Harta, Bangun Nusantara. 💰🇮🇩*
