@@ -30,7 +30,7 @@ def get_api_key() -> str:
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="NusaArtha AI — Asisten Keuangan Personal",
-    page_icon="images/logo.png",
+    page_icon="BERKAS RAG PROJECT/images/logo.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -43,7 +43,7 @@ def img_to_b64(path: str) -> str:
     except:
         return ""
 
-LOGO_B64 = img_to_b64("images/logo.png")
+LOGO_B64 = img_to_b64("BERKAS RAG PROJECT/images/logo.png")
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown("""
